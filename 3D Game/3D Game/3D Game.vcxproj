@@ -69,13 +69,31 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)\Dependencies\sdl\include;$(ProjectDir)\Dependencies\sdl_image\include;$(ProjectDir)\Dependencies\sdl2_mixer\include;$(ProjectDir)\Dependencies\sdl2_ttf\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\Dependencies\sdl\lib\x86;$(ProjectDir)\Dependencies\sdl_image\lib\x86;$(ProjectDir)\Dependencies\sdl2_mixer\lib\x86;$(ProjectDir)\Dependencies\sdl2_ttf\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir)\Dependencies\sdl\include;$(ProjectDir)\Dependencies\sdl_image\include;$(ProjectDir)\Dependencies\sdl2_mixer\include;$(ProjectDir)\Dependencies\sdl2_ttf\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\Dependencies\sdl\lib\x86;$(ProjectDir)\Dependencies\sdl_image\lib\x86;$(ProjectDir)\Dependencies\sdl2_mixer\lib\x86;$(ProjectDir)\Dependencies\sdl2_ttf\lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(ProjectDir)\Dependencies\sdl\include;$(ProjectDir)\Dependencies\sdl_image\include;$(ProjectDir)\Dependencies\sdl2_mixer\include;$(ProjectDir)\Dependencies\sdl2_ttf\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\Dependencies\sdl\lib\x64;$(ProjectDir)\Dependencies\sdl_image\lib\x64;$(ProjectDir)\Dependencies\sdl2_mixer\lib\x64;$(ProjectDir)\Dependencies\sdl2_ttf\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)\Dependencies\sdl\include;$(ProjectDir)\Dependencies\sdl_image\include;$(ProjectDir)\Dependencies\sdl2_mixer\include;$(ProjectDir)\Dependencies\sdl2_ttf\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)\Dependencies\sdl\lib\x64;$(ProjectDir)\Dependencies\sdl_image\lib\x64;$(ProjectDir)\Dependencies\sdl2_mixer\lib\x64;$(ProjectDir)\Dependencies\sdl2_ttf\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -83,6 +101,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -95,6 +116,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -108,6 +130,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
