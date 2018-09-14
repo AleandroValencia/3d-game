@@ -1,0 +1,11 @@
+﻿  Utils.cpp
+  SceneManager.cpp
+  main.cpp
+  Controller.cpp
+  Generating Code...
+     Creating library C:\github\3d-game\3D Game\x64\Debug\3D Game.lib and object C:\github\3d-game\3D Game\x64\Debug\3D Game.exp
+main.obj : error LNK2019: unresolved external symbol __imp_glClearColor referenced in function SDL_main
+main.obj : error LNK2019: unresolved external symbol __imp_glewInit referenced in function "bool __cdecl InitSDL(void)" (?InitSDL@@YA_NXZ)
+main.obj : error LNK2019: unresolved external symbol __imp_glewGetErrorString referenced in function "bool __cdecl InitSDL(void)" (?InitSDL@@YA_NXZ)
+C:\github\3d-game\3D Game\3D Game\\Dependencies\glew\glew32.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
+C:\github\3d-game\3D Game\x64\Debug\3D Game.exe : fatal error LNK1120: 3 unresolved externals
