@@ -1,5 +1,7 @@
-﻿  main.cpp
-c:\github\3d-game\3d game\3d game\dependencies\bullet\include\linearmath\btidebugdraw.h(169): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
-c:\github\3d-game\3d game\3d game\dependencies\bullet\include\linearmath\btidebugdraw.h(170): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
-c:\github\3d-game\3d game\3d game\dependencies\bullet\include\linearmath\btidebugdraw.h(171): warning C4305: 'argument': truncation from 'double' to 'const btScalar'
+﻿  GraphicsComponent.cpp
+  Camera.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  GameObject.cpp
+     Creating library C:\github\3d-game\3D Game\Debug\3D Game.lib and object C:\github\3d-game\3D Game\Debug\3D Game.exp
   3D Game.vcxproj -> C:\github\3d-game\3D Game\Debug\3D Game.exe

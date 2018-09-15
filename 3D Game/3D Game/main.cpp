@@ -12,10 +12,9 @@
 #include "Dependencies\Dear_ImGui\imgui_impl_sdl_gl3.h"
 
 #include "SceneManager.h"
+#include "Utils.h"
 
 // --Global Variables--
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 720;
 const char* gTitle = "3D Game";
 SDL_Window* gWindow = nullptr;
 SDL_GLContext gContext = nullptr;
@@ -44,7 +43,7 @@ bool InitSDL()
 	else
 	{
 		// Create Window
-		gWindow = SDL_CreateWindow(gTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+		gWindow = SDL_CreateWindow(gTitle, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Utils::WIDTH, Utils::HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 		if (gWindow == NULL)
 		{
 			printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
