@@ -102,19 +102,19 @@ void Utils::setSphereData(std::vector<VertexFormat>& vertices, std::vector<GLuin
 	std::vector<VertexFormat> Vertices;
 	std::vector<GLuint> Indices;
 
-	double latitudeBands = 30;
-	double longitudeBands = 30;
-	double radius = 1.0f;
+	float latitudeBands = 30;
+	float longitudeBands = 30;
+	float radius = 1.0f;
 
-	for (double latNumber = 0; latNumber <= latitudeBands; latNumber++) {
-		double theta = latNumber * 3.14 / latitudeBands;
-		double sinTheta = sin(theta);
-		double cosTheta = cos(theta);
+	for (float latNumber = 0; latNumber <= latitudeBands; latNumber++) {
+		float theta = latNumber * 3.14f / latitudeBands;
+		float sinTheta = sin(theta);
+		float cosTheta = cos(theta);
 
-		for (double longNumber = 0; longNumber <= longitudeBands; longNumber++) {
-			double phi = longNumber * 2 * 3.14 / longitudeBands;
-			double sinPhi = sin(phi);
-			double cosPhi = cos(phi);
+		for (float longNumber = 0; longNumber <= longitudeBands; longNumber++) {
+			float phi = longNumber * 2 * 3.14f / longitudeBands;
+			float sinPhi = sin(phi);
+			float cosPhi = cos(phi);
 
 			VertexFormat vs;
 
@@ -135,8 +135,8 @@ void Utils::setSphereData(std::vector<VertexFormat>& vertices, std::vector<GLuin
 
 	for (GLuint latNumber = 0; latNumber < latitudeBands; latNumber++) {
 		for (GLuint longNumber = 0; longNumber < longitudeBands; longNumber++) {
-			GLuint first = (latNumber * (longitudeBands + 1)) + longNumber;
-			GLuint second = first + longitudeBands + 1;
+			GLuint first = (latNumber * (static_cast<int>(longitudeBands) + 1)) + longNumber;
+			GLuint second = first + static_cast<int>(longitudeBands) + 1;
 
 			Indices.push_back(first);
 			Indices.push_back(second);

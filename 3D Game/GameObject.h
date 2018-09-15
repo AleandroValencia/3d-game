@@ -5,17 +5,19 @@
 #include "glm\glm.hpp"
 
 #include "Camera.h"
+#include "GraphicsComponent.h"
+#include "InputComponent.h"
+#include "PhysicsComponent.h"
 #include "TransformComponent.h"
-
-class GraphicsComponent;
-class InputComponent;
-class PhysicsComponent;
 
 class GameObject
 {
 public:
-	GameObject(GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics);
+	GameObject(Camera* _camera, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics);
 	~GameObject();
+
+	void Initialise(GLuint _program);
+	void Update();
 
 	glm::vec3 GetPosition() const;
 	glm::vec3 GetRotation() const;

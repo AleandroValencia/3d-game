@@ -26,6 +26,13 @@ double deltaTime = 0;
 
 SceneManager* SceneManager::s_SceneManager = nullptr;
 
+#include "Camera.h"
+#include "GameObject.h"
+#include "ShapeGraphicsComponent.h"
+#include "ShaderLoader.h"
+GameObject* bob;
+Camera* camera;
+
 bool InitSDL()
 {
 	bool success = true;
@@ -118,6 +125,17 @@ void InitImGui()
 	//IM_ASSERT(font != NULL);
 }
 
+void InitBullet()
+{
+	///collision configuration contains default setup for memory, collision setup.
+	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
+	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
+	btBroadphaseInterface* overlappingPairCache = new btDbvtBroadphase();
+	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
+	btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
+	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+}
+
 void HandleEvents(SDL_Event& _e, bool& _quit)
 {
 	while (SDL_PollEvent(&_e) != 0)
@@ -149,6 +167,16 @@ void HandleEvents(SDL_Event& _e, bool& _quit)
 	}
 }
 
+void Init()
+{
+	camera = new Camera();
+
+	ShaderLoader sl;
+	bob = new GameObject(camera, new ShapeGraphicsComponent(), nullptr, nullptr);
+	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/Simple.vs", "Assets/Shaders/Fragment/Simple.fs");
+	bob->Initialise(program);
+}
+
 int main(int argc, char* args[])
 {
 	srand(static_cast<unsigned int>(time(NULL)));
@@ -171,6 +199,7 @@ int main(int argc, char* args[])
 		else
 		{
 			InitImGui();
+			Init();
 			glClearColor(0.0, 0.0, 0.0, 1.0);
 			while (!closeApplication)
 			{
@@ -191,6 +220,8 @@ int main(int argc, char* args[])
 					ImGui::End();
 				}
 
+				bob->Update();
+
 				// Render
 				glClearColor(1.0, 0.0, 0.0, 1.0);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -204,6 +235,12 @@ int main(int argc, char* args[])
 
 	// Free resources and close SDL
 	CloseSDL();
+
+	delete bob;
+	bob = nullptr;
+
+	delete camera;
+	camera = nullptr;
 
 	return 0;
 }

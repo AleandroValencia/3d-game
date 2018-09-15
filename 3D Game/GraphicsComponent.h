@@ -5,19 +5,20 @@
 #include "Dependencies\glew\glew.h"
 
 #include "Utils.h"
-#include "GameObject.h"
+
+class GameObject;
 
 class GraphicsComponent
 {
 public:
 	virtual ~GraphicsComponent() {};
 	virtual void Update(GameObject& _gameObject) = 0;
+	virtual void Initialise() = 0;
 
-	void Initialise();
 	void SetProgram(GLuint _program) { m_program = _program; }
 	void SetTexture(GLuint _texture);
 
-private:
+protected:
 	GLuint m_vao;
 	GLuint m_vbo;
 	GLuint m_ebo;
@@ -32,7 +33,5 @@ private:
 	glm::vec3 m_color;
 	float m_specular;
 	float m_ambient;
-
-	ModelType m_shape;
 };
 #endif // !_GRAPHICSCOMPONENT_H__

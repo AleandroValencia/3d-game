@@ -153,6 +153,7 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="ShapeGraphicsComponent.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +177,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="Shape.h" />
+    <ClInclude Include="ShapeGraphicsComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

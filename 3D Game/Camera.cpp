@@ -5,10 +5,13 @@ Camera::Camera()
 	, m_near(0.1f)
 	, m_far(1000.0f)
 {
+	m_transform = new Transform();
 }
 
 Camera::~Camera()
 {
+	delete m_transform;
+	m_transform = nullptr;
 }
 
 glm::mat4 Camera::View()
