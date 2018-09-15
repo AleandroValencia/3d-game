@@ -14,7 +14,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -24,7 +23,6 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -34,6 +32,11 @@
 # Visual Studio Files
 Debug
 Release
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
 *.suo
 *.csproj.user
 *.vbproj.user
