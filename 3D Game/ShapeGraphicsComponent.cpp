@@ -4,6 +4,8 @@ void ShapeGraphicsComponent::Initialise()
 {
 	m_color = glm::vec3(1.0f, 1.0f, 1.0f);
 
+	//m_shape = kCube;
+
 	switch (m_shape)
 	{
 	case kTriangle: Utils::setTriData(m_vertices, m_indices); break;
@@ -45,12 +47,12 @@ void ShapeGraphicsComponent::Update(GameObject& _gameObject)
 	glUseProgram(m_program);
 
 	// Texture
-	//if (textureSet)
-	//{
-	//	//glActiveTexture(GL_TEXTURE0);
-	//	//glBindTexture(GL_TEXTURE_2D, m_texture);
-	//	//glUniform1i(glGetUniformLocation(m_program, "Texture"), 0);
-	//}
+	if (textureSet)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
+		glUniform1i(glGetUniformLocation(m_program, "Texture"), 0);
+	}
 
 	glm::mat4 model;
 	model = glm::translate(model, _gameObject.m_transform->position);

@@ -1,28 +1,33 @@
 #include "GraphicsComponent.h"
 
-void GraphicsComponent::SetTexture(GLuint _texture)
+void GraphicsComponent::SetTexture(std::string _filePath)
 {
-	////** load texture
-	//glGenTextures(1, &m_texture);
-	//glBindTexture(GL_TEXTURE_2D, m_texture);
+	SDL_Surface* image = IMG_Load(_filePath.c_str());
 
-	//// Set texture wrapping to GL_REPEAT (usually basic wrapping method)
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//// Set texture filtering parameters
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	if (image == nullptr)
+	{
+		printf("Error: Could not find texture path: %s\n", _filePath.c_str());
+	}
+	else
+	{
+		glGenTextures(1, &m_texture);
+		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-	////** loadImage and create texture
-	//// Load image, create texture and generate mipmaps
-	//int width, height;
-	//unsigned char* image = SOIL_load_image(texFileName.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	//glGenerateMipmap(GL_TEXTURE_2D);
-	//SOIL_free_image_data(image);
-	////glBindTexture(GL_TEXTURE_2D, 0);
+		// Set texture wrapping to GL_REPEAT
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		// Set texture filtering parameters
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	//printf("fileName %s \n", texFileName.c_str());
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->w, image->h, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
 
-	////textureSet = true;
+		SDL_FreeSurface(image);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		textureSet = true;
+
+#if _DEBUG
+		printf("fileName %s loaded!\n", _filePath.c_str());
+#endif
+	}
 }

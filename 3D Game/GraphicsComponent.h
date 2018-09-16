@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Dependencies\glew\glew.h"
+#include "Dependencies\sdl_image\include\SDL_image.h"
 
 #include "Utils.h"
 
@@ -16,7 +17,7 @@ public:
 	virtual void Initialise() = 0;
 
 	void SetProgram(GLuint _program) { m_program = _program; }
-	void SetTexture(GLuint _texture);
+	void SetTexture(std::string _filePath);
 
 protected:
 	GLuint m_vao;

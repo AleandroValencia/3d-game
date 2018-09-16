@@ -2,6 +2,8 @@
 #define _GAMEOBJECT_H__
 #pragma once
 
+#include <assert.h>
+
 #include "glm\glm.hpp"
 
 #include "Camera.h"
@@ -17,7 +19,10 @@ public:
 	~GameObject();
 
 	void Initialise(GLuint _program);
-	void Update();
+	void SetTexture(std::string _filePath);
+	void UpdateInput();
+	void UpdatePhysics();
+	void Render();
 
 	glm::vec3 GetPosition() const;
 	glm::vec3 GetRotation() const;

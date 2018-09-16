@@ -87,10 +87,11 @@ public:
 	const static int WIDTH = 1280;
 	const static int HEIGHT = 720;
 
-	static void setTriData(std::vector<VertexFormat>& vertices, std::vector<GLuint>&indices);
-	static void setQuadData(std::vector<VertexFormat>& vertices, std::vector<GLuint>&indices);
-	static void setCubeData(std::vector<VertexFormat>& vertices, std::vector<GLuint>&indices);
-	static void setSphereData(std::vector<VertexFormat>& vertices, std::vector<GLuint>&indices);
+	static void setTriData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
+	static void setQuadData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
+	static void setCubeData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
+	static void setSkyBoxData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
+	static void setSphereData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
 };
 
 #endif // !_UTILS_H__

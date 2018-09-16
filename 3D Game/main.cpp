@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string>
 #include <time.h>
+#include <algorithm>
+
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\sdl\include\SDL_opengl.h"
 
@@ -32,6 +34,8 @@ SceneManager* SceneManager::s_SceneManager = nullptr;
 #include "ShaderLoader.h"
 GameObject* bob;
 Camera* camera;
+
+std::vector<GraphicsComponent*> m_graphicsComponents;
 
 bool InitSDL()
 {
@@ -172,9 +176,11 @@ void Init()
 	camera = new Camera();
 
 	ShaderLoader sl;
+	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/Texture.vs", "Assets/Shaders/Fragment/Texture.fs");
+
 	bob = new GameObject(camera, new ShapeGraphicsComponent(), nullptr, nullptr);
-	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/Simple.vs", "Assets/Shaders/Fragment/Simple.fs");
 	bob->Initialise(program);
+	bob->SetTexture("Assets/Textures/Grass.jpg");
 }
 
 int main(int argc, char* args[])
@@ -220,13 +226,18 @@ int main(int argc, char* args[])
 					ImGui::End();
 				}
 
-				bob->Update();
+				bob->UpdateInput();
+				bob->UpdatePhysics();
 
 				// Render
 				glClearColor(1.0, 0.0, 0.0, 1.0);
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				bob->Render();
+
 				ImGui::Render();
 				ImGui_ImplSdlGL3_RenderDrawData(ImGui::GetDrawData());
+
 				// Update the surface
 				SDL_GL_SwapWindow(gWindow);
 			}

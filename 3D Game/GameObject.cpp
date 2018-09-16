@@ -22,23 +22,33 @@ void GameObject::Initialise(GLuint _program)
 	m_graphics->SetProgram(_program);
 }
 
-void GameObject::Update()
+void GameObject::SetTexture(std::string _filePath)
 {
-	if (m_transform == nullptr)
-		printf("ERROR: m_transform not set\n");
-	if (m_camera == nullptr)
-		printf("ERROR: m_camera not set\n");
+	m_graphics->SetTexture(_filePath);
+}
 
+void GameObject::UpdateInput()
+{
 	if (m_input != nullptr)
 	{
 		m_input->Update(*this);
 	}
+}
 
+void GameObject::UpdatePhysics()
+{
 	if (m_physics != nullptr)
 	{
 		m_physics->Update(*this);
 	}
+}
 
+void GameObject::Render()
+{
+#if _DEBUG
+	assert(m_transform != nullptr);
+	assert(m_camera != nullptr);
+#endif
 	if (m_graphics != nullptr)
 	{
 		m_graphics->Update(*this);
