@@ -14,6 +14,15 @@ GameObject::~GameObject()
 {
 	delete m_transform;
 	m_transform = nullptr;
+
+	delete m_graphics;
+	m_graphics = nullptr;
+
+	delete m_input;
+	m_input = nullptr;
+
+	delete m_physics;
+	m_physics = nullptr;
 }
 
 void GameObject::Initialise(GLuint _program)

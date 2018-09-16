@@ -5,6 +5,7 @@
 #include <string>
 #include <time.h>
 #include <algorithm>
+#include <vld.h>
 
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\sdl\include\SDL_opengl.h"
@@ -19,7 +20,7 @@
 // --Global Variables--
 const char* gTitle = "3D Game";
 SDL_Window* gWindow = nullptr;
-SDL_GLContext gContext = nullptr;
+SDL_GLContext gContext;
 bool vSync = true;
 
 Uint64 currentTime = SDL_GetPerformanceCounter();
@@ -27,6 +28,12 @@ Uint64 elapsedTime = 0;
 double deltaTime = 0;
 
 SceneManager* SceneManager::s_SceneManager = nullptr;
+
+btDefaultCollisionConfiguration* collisionConfiguration = nullptr;
+btDiscreteDynamicsWorld* dynamicsWorld = nullptr;
+btCollisionDispatcher* dispatcher = nullptr;
+btBroadphaseInterface* overlappingPairCache = nullptr;
+btSequentialImpulseConstraintSolver* solver = nullptr;
 
 #include "Camera.h"
 #include "GameObject.h"
@@ -40,10 +47,6 @@ std::vector<GraphicsComponent*> m_graphicsComponents;
 bool InitSDL()
 {
 	bool success = true;
-
-	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
-	delete collisionConfiguration;
-	collisionConfiguration = nullptr;
 
 	// Initialise SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -95,6 +98,7 @@ bool InitSDL()
 
 void CloseSDL()
 {
+	SDL_GL_DeleteContext(gContext);
 	// Destroy Window
 	SDL_DestroyWindow(gWindow);
 	gWindow = nullptr;
@@ -131,12 +135,12 @@ void InitImGui()
 
 void InitBullet()
 {
-	///collision configuration contains default setup for memory, collision setup.
-	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
-	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
-	btBroadphaseInterface* overlappingPairCache = new btDbvtBroadphase();
-	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
-	btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
+	//collision configuration contains default setup for memory, collision setup.
+	collisionConfiguration = new btDefaultCollisionConfiguration();
+	dispatcher = new btCollisionDispatcher(collisionConfiguration);
+	overlappingPairCache = new btDbvtBroadphase();
+	solver = new btSequentialImpulseConstraintSolver;
+	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
 	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
 }
 
@@ -205,6 +209,7 @@ int main(int argc, char* args[])
 		else
 		{
 			InitImGui();
+			//InitBullet();
 			Init();
 			glClearColor(0.0, 0.0, 0.0, 1.0);
 			while (!closeApplication)
@@ -226,6 +231,9 @@ int main(int argc, char* args[])
 					ImGui::End();
 				}
 
+				// Update physics
+				//dynamicsWorld->stepSimulation(1.0f / 60.0f, 10);
+
 				bob->UpdateInput();
 				bob->UpdatePhysics();
 
@@ -244,14 +252,51 @@ int main(int argc, char* args[])
 		}
 	}
 
-	// Free resources and close SDL
-	CloseSDL();
+
 
 	delete bob;
 	bob = nullptr;
 
 	delete camera;
 	camera = nullptr;
+
+	SceneManager::DestroyInstance();
+
+	std::for_each(m_graphicsComponents.begin(), m_graphicsComponents.end(), [](GraphicsComponent* _g) { delete _g; _g = nullptr; });
+
+	// Cleanup physics
+	//remove the rigidbodies from the dynamics world and delete them
+	if (dynamicsWorld != nullptr)
+	{
+		for (int i = dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
+		{
+			btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
+			btRigidBody* body = btRigidBody::upcast(obj);
+			if (body && body->getMotionState())
+			{
+				delete body->getMotionState();
+			}
+			dynamicsWorld->removeCollisionObject(obj);
+			delete obj;
+		}
+	}
+	delete collisionConfiguration;
+	collisionConfiguration = nullptr;
+	delete dispatcher;
+	dispatcher = nullptr;
+	delete solver;
+	solver = nullptr;
+	delete overlappingPairCache;
+	overlappingPairCache = nullptr;
+	delete dynamicsWorld;
+	dynamicsWorld = nullptr;
+
+	// Cleanup imgui
+	ImGui_ImplSdlGL3_Shutdown();
+	ImGui::DestroyContext();
+
+	// Free resources and close SDL
+	CloseSDL();
 
 	return 0;
 }
