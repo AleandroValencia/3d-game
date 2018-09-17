@@ -17,7 +17,17 @@
 #include "SceneManager.h"
 #include "Utils.h"
 
+#include "Camera.h"
+#include "GameObject.h"
+#include "ShapeGraphicsComponent.h"
+#include "ShaderLoader.h"
+
 // --Global Variables--
+btDefaultCollisionConfiguration* collisionConfiguration = nullptr;
+btCollisionDispatcher* dispatcher = nullptr;
+btBroadphaseInterface* overlappingPairCache = nullptr;
+btSequentialImpulseConstraintSolver* solver = nullptr;
+btDiscreteDynamicsWorld* dynamicsWorld = nullptr;
 const char* gTitle = "3D Game";
 SDL_Window* gWindow = nullptr;
 SDL_GLContext gContext;
@@ -29,16 +39,6 @@ double deltaTime = 0;
 
 SceneManager* SceneManager::s_SceneManager = nullptr;
 
-btDefaultCollisionConfiguration* collisionConfiguration = nullptr;
-btDiscreteDynamicsWorld* dynamicsWorld = nullptr;
-btCollisionDispatcher* dispatcher = nullptr;
-btBroadphaseInterface* overlappingPairCache = nullptr;
-btSequentialImpulseConstraintSolver* solver = nullptr;
-
-#include "Camera.h"
-#include "GameObject.h"
-#include "ShapeGraphicsComponent.h"
-#include "ShaderLoader.h"
 GameObject* bob;
 Camera* camera;
 
@@ -135,13 +135,39 @@ void InitImGui()
 
 void InitBullet()
 {
-	//collision configuration contains default setup for memory, collision setup.
+	overlappingPairCache = new btDbvtBroadphase();
 	collisionConfiguration = new btDefaultCollisionConfiguration();
 	dispatcher = new btCollisionDispatcher(collisionConfiguration);
-	overlappingPairCache = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver;
 	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
 	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
+
+	// Cleanup physics
+	//remove the rigidbodies from the dynamics world and delete them
+	if (dynamicsWorld != nullptr)
+	{
+		for (int i = dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
+		{
+			btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
+			btRigidBody* body = btRigidBody::upcast(obj);
+			if (body && body->getMotionState())
+			{
+				delete body->getMotionState();
+			}
+			dynamicsWorld->removeCollisionObject(obj);
+			delete obj;
+		}
+	}
+	delete collisionConfiguration;
+	collisionConfiguration = nullptr;
+	delete dispatcher;
+	dispatcher = nullptr;
+	delete solver;
+	solver = nullptr;
+	delete overlappingPairCache;
+	overlappingPairCache = nullptr;
+	delete dynamicsWorld;
+	dynamicsWorld = nullptr;
 }
 
 void HandleEvents(SDL_Event& _e, bool& _quit)
@@ -208,8 +234,8 @@ int main(int argc, char* args[])
 		}
 		else
 		{
+			InitBullet();
 			InitImGui();
-			//InitBullet();
 			Init();
 			glClearColor(0.0, 0.0, 0.0, 1.0);
 			while (!closeApplication)
@@ -252,8 +278,6 @@ int main(int argc, char* args[])
 		}
 	}
 
-
-
 	delete bob;
 	bob = nullptr;
 
@@ -264,7 +288,7 @@ int main(int argc, char* args[])
 
 	std::for_each(m_graphicsComponents.begin(), m_graphicsComponents.end(), [](GraphicsComponent* _g) { delete _g; _g = nullptr; });
 
-	// Cleanup physics
+	 //Cleanup physics
 	//remove the rigidbodies from the dynamics world and delete them
 	if (dynamicsWorld != nullptr)
 	{
