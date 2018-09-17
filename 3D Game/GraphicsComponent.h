@@ -13,13 +13,15 @@ class GraphicsComponent
 {
 public:
 	virtual ~GraphicsComponent() {};
-	virtual void Update(GameObject& _gameObject) = 0;
-	virtual void Initialise() = 0;
+	virtual void Update() = 0;
+	virtual void Initialise(GameObject* _gameObject) = 0;
 
 	void SetProgram(GLuint _program) { m_program = _program; }
 	void SetTexture(std::string _filePath);
 
 protected:
+	GameObject* m_gameObject;
+
 	GLuint m_vao;
 	GLuint m_vbo;
 	GLuint m_ebo;

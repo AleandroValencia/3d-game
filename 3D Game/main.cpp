@@ -106,6 +106,7 @@ void Init()
 	bob = new GameObject(camera, new ShapeGraphicsComponent(), nullptr, nullptr);
 	bob->Initialise(program);
 	bob->SetTexture("Assets/Textures/Grass.jpg");
+	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 }
 
 int main(int argc, char* args[])
@@ -152,7 +153,7 @@ int main(int argc, char* args[])
 		glClearColor(1.0, 0.0, 0.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		bob->Render();
+		std::for_each(m_graphicsComponents.begin(), m_graphicsComponents.end(), [](GraphicsComponent* _g) {_g->Update(); });
 
 		ImGui::Render();
 		ImGui_ImplSdlGL3_RenderDrawData(ImGui::GetDrawData());
@@ -166,8 +167,6 @@ int main(int argc, char* args[])
 
 	delete camera;
 	camera = nullptr;
-
-	std::for_each(m_graphicsComponents.begin(), m_graphicsComponents.end(), [](GraphicsComponent* _g) { delete _g; _g = nullptr; });
 
 	PhysicsSettings::DestroyInstance();
 

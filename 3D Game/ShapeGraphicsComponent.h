@@ -11,8 +11,8 @@ public:
 	ShapeGraphicsComponent() {}
 	~ShapeGraphicsComponent() {}
 
-	void Initialise();
-	void Update(GameObject& _gameObject);
+	void Initialise(GameObject* _gameObject);
+	void Update();
 private:
 	ModelType m_shape;
 };

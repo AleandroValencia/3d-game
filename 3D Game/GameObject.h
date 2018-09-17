@@ -38,7 +38,9 @@ public:
 	Camera* m_camera;
 	Transform* m_transform;
 
-	void* GetComponent(COMPONENT _component);
+	GraphicsComponent* GetGraphicsComponent() const { return m_graphics; }
+	InputComponent* GetInputComponent() const { return m_input; }
+	PhysicsComponent* GetPhysicsComponent() const { return m_physics; }
 private:
 	GraphicsComponent* m_graphics;
 	InputComponent* m_input;

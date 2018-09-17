@@ -1,7 +1,8 @@
 #include "ShapeGraphicsComponent.h"
 
-void ShapeGraphicsComponent::Initialise()
+void ShapeGraphicsComponent::Initialise(GameObject* _gameObject)
 {
+	m_gameObject = _gameObject;
 	m_color = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	//m_shape = kCube;
@@ -42,7 +43,7 @@ void ShapeGraphicsComponent::Initialise()
 	glBindVertexArray(0);
 }
 
-void ShapeGraphicsComponent::Update(GameObject& _gameObject)
+void ShapeGraphicsComponent::Update()
 {
 	glUseProgram(m_program);
 
@@ -55,14 +56,14 @@ void ShapeGraphicsComponent::Update(GameObject& _gameObject)
 	}
 
 	glm::mat4 model;
-	model = glm::translate(model, _gameObject.m_transform->position);
-	model = glm::rotate(model, glm::radians(_gameObject.m_transform->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(_gameObject.m_transform->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(_gameObject.m_transform->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::scale(model, _gameObject.m_transform->scale);
+	model = glm::translate(model, m_gameObject->m_transform->position);
+	model = glm::rotate(model, glm::radians(m_gameObject->m_transform->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(m_gameObject->m_transform->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(m_gameObject->m_transform->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::scale(model, m_gameObject->m_transform->scale);
 
-	glm::mat4 view = _gameObject.m_camera->View();
-	glm::mat4 projection = _gameObject.m_camera->Projection();
+	glm::mat4 view = m_gameObject->m_camera->View();
+	glm::mat4 projection = m_gameObject->m_camera->Projection();
 	glm::mat4 vp = projection * view;
 
 	GLint vpLoc = glGetUniformLocation(m_program, "vp");
@@ -75,7 +76,7 @@ void ShapeGraphicsComponent::Update(GameObject& _gameObject)
 	glUniform3f(objColorLoc, m_color.x, m_color.y, m_color.z);
 
 	GLuint cameraPosLoc = glGetUniformLocation(m_program, "cameraPos");
-	glUniform3f(cameraPosLoc, _gameObject.m_camera->m_transform->position.x, _gameObject.m_camera->m_transform->position.y, _gameObject.m_camera->m_transform->position.z);
+	glUniform3f(cameraPosLoc, m_gameObject->m_camera->m_transform->position.x, m_gameObject->m_camera->m_transform->position.y, m_gameObject->m_camera->m_transform->position.z);
 
 	//GLuint lightPosLoc = glGetUniformLocation(m_program, "lightPos");
 	//glUniform3f(lightPosLoc, this->light->getPosition().x, this->light->getPosition().y, this->light->getPosition().z);
