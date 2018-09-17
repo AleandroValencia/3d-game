@@ -17,17 +17,15 @@
 #include "SceneManager.h"
 #include "Utils.h"
 
+#include "PhysicsSettings.h"
+
 #include "Camera.h"
 #include "GameObject.h"
 #include "ShapeGraphicsComponent.h"
 #include "ShaderLoader.h"
 
 // --Global Variables--
-btDefaultCollisionConfiguration* collisionConfiguration = nullptr;
-btCollisionDispatcher* dispatcher = nullptr;
-btBroadphaseInterface* overlappingPairCache = nullptr;
-btSequentialImpulseConstraintSolver* solver = nullptr;
-btDiscreteDynamicsWorld* dynamicsWorld = nullptr;
+
 const char* gTitle = "3D Game";
 SDL_Window* gWindow = nullptr;
 SDL_GLContext gContext;
@@ -133,43 +131,6 @@ void InitImGui()
 	//IM_ASSERT(font != NULL);
 }
 
-void InitBullet()
-{
-	overlappingPairCache = new btDbvtBroadphase();
-	collisionConfiguration = new btDefaultCollisionConfiguration();
-	dispatcher = new btCollisionDispatcher(collisionConfiguration);
-	solver = new btSequentialImpulseConstraintSolver;
-	dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-	dynamicsWorld->setGravity(btVector3(0, -9.81, 0));
-
-	// Cleanup physics
-	//remove the rigidbodies from the dynamics world and delete them
-	if (dynamicsWorld != nullptr)
-	{
-		for (int i = dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
-		{
-			btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
-			btRigidBody* body = btRigidBody::upcast(obj);
-			if (body && body->getMotionState())
-			{
-				delete body->getMotionState();
-			}
-			dynamicsWorld->removeCollisionObject(obj);
-			delete obj;
-		}
-	}
-	delete collisionConfiguration;
-	collisionConfiguration = nullptr;
-	delete dispatcher;
-	dispatcher = nullptr;
-	delete solver;
-	solver = nullptr;
-	delete overlappingPairCache;
-	overlappingPairCache = nullptr;
-	delete dynamicsWorld;
-	dynamicsWorld = nullptr;
-}
-
 void HandleEvents(SDL_Event& _e, bool& _quit)
 {
 	while (SDL_PollEvent(&_e) != 0)
@@ -234,7 +195,6 @@ int main(int argc, char* args[])
 		}
 		else
 		{
-			InitBullet();
 			InitImGui();
 			Init();
 			glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -287,33 +247,6 @@ int main(int argc, char* args[])
 	SceneManager::DestroyInstance();
 
 	std::for_each(m_graphicsComponents.begin(), m_graphicsComponents.end(), [](GraphicsComponent* _g) { delete _g; _g = nullptr; });
-
-	 //Cleanup physics
-	//remove the rigidbodies from the dynamics world and delete them
-	if (dynamicsWorld != nullptr)
-	{
-		for (int i = dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
-		{
-			btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[i];
-			btRigidBody* body = btRigidBody::upcast(obj);
-			if (body && body->getMotionState())
-			{
-				delete body->getMotionState();
-			}
-			dynamicsWorld->removeCollisionObject(obj);
-			delete obj;
-		}
-	}
-	delete collisionConfiguration;
-	collisionConfiguration = nullptr;
-	delete dispatcher;
-	dispatcher = nullptr;
-	delete solver;
-	solver = nullptr;
-	delete overlappingPairCache;
-	overlappingPairCache = nullptr;
-	delete dynamicsWorld;
-	dynamicsWorld = nullptr;
 
 	// Cleanup imgui
 	ImGui_ImplSdlGL3_Shutdown();
