@@ -12,6 +12,13 @@
 #include "PhysicsComponent.h"
 #include "TransformComponent.h"
 
+enum COMPONENT
+{
+	GRAPHICS = 0,
+	PHYSICS,
+	INPUT
+};
+
 class GameObject
 {
 public:
@@ -30,6 +37,8 @@ public:
 
 	Camera* m_camera;
 	Transform* m_transform;
+
+	void* GetComponent(COMPONENT _component);
 private:
 	GraphicsComponent* m_graphics;
 	InputComponent* m_input;

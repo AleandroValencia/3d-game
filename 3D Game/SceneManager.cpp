@@ -1,5 +1,7 @@
 #include "SceneManager.h"
 
+SceneManager* SceneManager::s_SceneManager = nullptr;
+
 SceneManager::SceneManager()
 {
 

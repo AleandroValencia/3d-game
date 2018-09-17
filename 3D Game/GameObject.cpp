@@ -78,3 +78,21 @@ glm::vec3 GameObject::GetScale() const
 {
 	return m_transform->scale;
 }
+
+void * GameObject::GetComponent(COMPONENT _component)
+{
+	switch (_component)
+	{
+	case GRAPHICS:
+		return m_graphics;
+		break;
+	case PHYSICS:
+		return m_physics;
+		break;
+	case INPUT:
+		return m_input;
+		break;
+	default:
+		break;
+	}
+}
