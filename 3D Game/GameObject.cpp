@@ -36,6 +36,11 @@ void GameObject::SetTexture(std::string _filePath)
 	m_graphics->SetTexture(_filePath);
 }
 
+void GameObject::SetTextures(std::vector<std::string>& _filePath)
+{
+	m_graphics->SetTextures(_filePath);
+}
+
 void GameObject::UpdateInput()
 {
 	if (m_input != nullptr)

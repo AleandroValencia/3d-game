@@ -18,6 +18,7 @@ public:
 
 	void SetProgram(GLuint _program) { m_program = _program; }
 	void SetTexture(std::string _filePath);
+	void SetTextures(std::vector<std::string>& _textures);
 
 protected:
 	GameObject* m_gameObject;

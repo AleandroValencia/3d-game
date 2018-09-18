@@ -16,12 +16,30 @@ Game & Game::Instance()
 
 void Game::InitGameObjects()
 {
-	camera = new Camera();
 	ShaderLoader sl;
+
+	camera = new Camera();
+
+	GLuint skyboxProgram = sl.CreateProgram("Assets/Shaders/Vertex/CubeMap.vs", "Assets/Shaders/Fragment/CubeMap.fs");
+	std::vector<std::string> skyBoxTextures;
+	skyBoxTextures.push_back("Assets/Textures/Skybox/right.jpg");
+	skyBoxTextures.push_back("Assets/Textures/Skybox/left.jpg");
+	skyBoxTextures.push_back("Assets/Textures/Skybox/top.jpg");
+	skyBoxTextures.push_back("Assets/Textures/Skybox/bottom.jpg");
+	skyBoxTextures.push_back("Assets/Textures/Skybox/back.jpg");
+	skyBoxTextures.push_back("Assets/Textures/Skybox/front.jpg");
+	GameObject* skybox = new GameObject(camera, new ShapeGraphicsComponent(SKYBOX), nullptr, nullptr);
+	skybox->m_transform->scale = glm::vec3(100.0f);
+	skybox->Initialise(skyboxProgram);
+	skybox->SetTextures(skyBoxTextures);
+	m_gameObjects.push_back(skybox);
+	m_graphicsComponents.push_back(skybox->GetGraphicsComponent());
+
 	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/Texture.vs", "Assets/Shaders/Fragment/Texture.fs");
-	bob = new GameObject(camera, new ShapeGraphicsComponent(), nullptr, nullptr);
+	bob = new GameObject(camera, new ShapeGraphicsComponent(TRIANGLE), nullptr, nullptr);
 	bob->Initialise(program);
 	bob->SetTexture("Assets/Textures/Grass.jpg");
+	m_gameObjects.push_back(bob);
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 }
 
@@ -53,9 +71,9 @@ void Game::MainLoop()
 	while (!m_closeApplication)
 	{
 		// Calculate Delta Time
-		float elapsedTime = m_currentTime;
+		Uint64 elapsedTime = m_currentTime;
 		m_currentTime = SDL_GetPerformanceCounter();
-		float deltaTime = static_cast<double>((m_currentTime - elapsedTime) * 1000 / static_cast<double>(SDL_GetPerformanceFrequency()));
+		float deltaTime = static_cast<float>((m_currentTime - elapsedTime) * 1000 / static_cast<float>(SDL_GetPerformanceFrequency()));
 		deltaTime = deltaTime * 0.001f;	// Convert ms to s
 
 		HandleEvents(e, m_closeApplication);
@@ -122,8 +140,11 @@ void Game::HandleEvents(SDL_Event & _e, bool & _quit)
 
 void Game::ShutDown()
 {
-	delete bob;
-	bob = nullptr;
+	for (auto iter = m_gameObjects.begin(); iter != m_gameObjects.end(); ++iter)
+	{
+		delete *iter;
+		*iter = nullptr;
+	}
 
 	delete camera;
 	camera = nullptr;

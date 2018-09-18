@@ -10,10 +10,11 @@
 
 enum ModelType {
 
-	kTriangle = 0,
-	kQuad = 1,
-	kCube = 2,
-	kSphere = 3
+	TRIANGLE = 0,
+	QUAD = 1,
+	CUBE = 2,
+	SPHERE = 3,
+	SKYBOX
 };
 
 struct Position {

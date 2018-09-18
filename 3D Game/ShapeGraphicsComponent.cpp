@@ -5,14 +5,13 @@ void ShapeGraphicsComponent::Initialise(GameObject* _gameObject)
 	m_gameObject = _gameObject;
 	m_color = glm::vec3(1.0f, 1.0f, 1.0f);
 
-	m_shape = kCube;
-
 	switch (m_shape)
 	{
-	case kTriangle: Utils::setTriData(m_vertices, m_indices); break;
-	case kQuad: Utils::setQuadData(m_vertices, m_indices); break;
-	case kCube: Utils::setCubeData(m_vertices, m_indices); break;
-	case kSphere: Utils::setSphereData(m_vertices, m_indices); break;
+	case TRIANGLE: Utils::setTriData(m_vertices, m_indices); break;
+	case QUAD: Utils::setQuadData(m_vertices, m_indices); break;
+	case CUBE: Utils::setCubeData(m_vertices, m_indices); break;
+	case SPHERE: Utils::setSphereData(m_vertices, m_indices); break;
+	case SKYBOX: Utils::setSkyBoxData(m_vertices, m_indices); break;
 	default: Utils::setCubeData(m_vertices, m_indices);	break;
 	}
 
