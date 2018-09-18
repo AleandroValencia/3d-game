@@ -77,7 +77,7 @@ void Game::MainLoop()
 		deltaTime = deltaTime * 0.001f;	// Convert ms to s
 
 		HandleEvents(e, m_closeApplication);
-
+		
 		ImGui_ImplSdlGL3_NewFrame(m_Window);
 		// Update
 		if (m_showWindow)
@@ -118,7 +118,8 @@ void Game::HandleEvents(SDL_Event & _e, bool & _quit)
 		{
 			_quit = true;
 		}
-		else if (_e.type == SDL_KEYDOWN)
+		
+		if (_e.type == SDL_KEYDOWN)
 		{
 			switch (_e.key.keysym.sym)
 			{
@@ -135,6 +136,18 @@ void Game::HandleEvents(SDL_Event & _e, bool & _quit)
 				break;
 			}
 		}
+
+		if (_e.type == SDL_MOUSEMOTION)
+		{
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+		}
+	}
+	// Key hold
+	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+	if (currentKeyStates[SDL_SCANCODE_W])
+	{
+		printf("pressing w\n");
 	}
 }
 
