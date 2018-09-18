@@ -13,21 +13,25 @@ PhysicsSettings::PhysicsSettings()
 
 PhysicsSettings::~PhysicsSettings()
 {
-	//remove the rigidbodies from the dynamics world and delete them
-	if (m_dynamicsWorld != nullptr)
+	for (int i = m_dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
 	{
-		for (int i = m_dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--)
+		btCollisionObject* obj = m_dynamicsWorld->getCollisionObjectArray()[i];
+		btRigidBody* body = btRigidBody::upcast(obj);
+		if (body && body->getMotionState())
 		{
-			btCollisionObject* obj = m_dynamicsWorld->getCollisionObjectArray()[i];
-			btRigidBody* body = btRigidBody::upcast(obj);
-			if (body && body->getMotionState())
-			{
-				delete body->getMotionState();
-			}
-			m_dynamicsWorld->removeCollisionObject(obj);
-			delete obj;
+			delete body->getMotionState();
 		}
+		m_dynamicsWorld->removeCollisionObject(obj);
+		delete obj;
 	}
+
+	for (int i = 0; i < m_collisionShapes.size(); ++i)
+	{
+		btCollisionShape* shape = m_collisionShapes[i];
+		m_collisionShapes[i] = 0;
+		delete shape;
+	}
+
 	delete m_collisionConfiguration;
 	m_collisionConfiguration = nullptr;
 	delete m_dispatcher;

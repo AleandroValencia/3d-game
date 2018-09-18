@@ -65,4 +65,3 @@ private:
 };
 
 #endif // !_GAME_H__
-

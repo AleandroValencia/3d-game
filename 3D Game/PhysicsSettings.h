@@ -22,6 +22,7 @@ private:
 	btBroadphaseInterface* m_overlappingPairCache;
 	btSequentialImpulseConstraintSolver* m_solver;
 	btDiscreteDynamicsWorld* m_dynamicsWorld;
+	btAlignedObjectArray<btCollisionShape*> m_collisionShapes;
 };
 
 #endif // !_PHYSICSSETTINGS_H__
