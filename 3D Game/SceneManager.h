@@ -5,17 +5,11 @@
 class SceneManager
 {
 public:
+	SceneManager();
 	~SceneManager();
 
-	static bool Initialise();
-
-	static SceneManager& Instance();
-	static void DestroyInstance();
-protected:
-	static SceneManager* s_SceneManager;
-
+	bool Initialise();
 private:
-	SceneManager();
 
 };
 

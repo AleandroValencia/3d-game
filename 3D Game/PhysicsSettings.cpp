@@ -1,13 +1,5 @@
 #include "PhysicsSettings.h"
 
-PhysicsSettings* PhysicsSettings::s_PhysicsSettings = nullptr;
-float PhysicsSettings::m_gravity = -9.81f;
-btDefaultCollisionConfiguration* PhysicsSettings::m_collisionConfiguration = nullptr;
-btCollisionDispatcher* PhysicsSettings::m_dispatcher;
-btBroadphaseInterface* PhysicsSettings::m_overlappingPairCache;
-btSequentialImpulseConstraintSolver* PhysicsSettings::m_solver;
-btDiscreteDynamicsWorld* PhysicsSettings::m_dynamicsWorld;
-
 PhysicsSettings::PhysicsSettings()
 {
 	m_gravity = -9.81;
@@ -21,20 +13,6 @@ PhysicsSettings::PhysicsSettings()
 
 PhysicsSettings::~PhysicsSettings()
 {
-}
-
-PhysicsSettings& PhysicsSettings::Instance()
-{
-	if (s_PhysicsSettings == nullptr)
-	{
-		s_PhysicsSettings = new PhysicsSettings();
-	}
-	return *s_PhysicsSettings;
-}
-
-void PhysicsSettings::DestroyInstance()
-{
-	// Cleanup physics
 	//remove the rigidbodies from the dynamics world and delete them
 	if (m_dynamicsWorld != nullptr)
 	{
@@ -60,9 +38,6 @@ void PhysicsSettings::DestroyInstance()
 	m_overlappingPairCache = nullptr;
 	delete m_dynamicsWorld;
 	m_dynamicsWorld = nullptr;
-
-	delete s_PhysicsSettings;
-	s_PhysicsSettings = nullptr;
 }
 
 void PhysicsSettings::SetGravity(float _gravity)

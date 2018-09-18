@@ -7,25 +7,21 @@
 class PhysicsSettings
 {
 public:
+	PhysicsSettings();
 	~PhysicsSettings();
 
-	static PhysicsSettings& Instance();
-	static void DestroyInstance();
+	void SetGravity(float _gravity);
+	float GetGravity();
 
-	static void SetGravity(float _gravity);
-	static float GetGravity();
+	btDiscreteDynamicsWorld* World();
 
-	static btDiscreteDynamicsWorld* World();
 private:
-	PhysicsSettings();
-	static PhysicsSettings* s_PhysicsSettings;
-
-	static float m_gravity;
-	static btDefaultCollisionConfiguration* m_collisionConfiguration;
-	static btCollisionDispatcher* m_dispatcher;
-	static btBroadphaseInterface* m_overlappingPairCache;
-	static btSequentialImpulseConstraintSolver* m_solver;
-	static btDiscreteDynamicsWorld* m_dynamicsWorld;
+	float m_gravity;
+	btDefaultCollisionConfiguration* m_collisionConfiguration;
+	btCollisionDispatcher* m_dispatcher;
+	btBroadphaseInterface* m_overlappingPairCache;
+	btSequentialImpulseConstraintSolver* m_solver;
+	btDiscreteDynamicsWorld* m_dynamicsWorld;
 };
 
 #endif // !_PHYSICSSETTINGS_H__

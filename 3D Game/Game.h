@@ -16,10 +16,9 @@
 #include "Dependencies\Dear_ImGui\imgui.h"
 #include "Dependencies\Dear_ImGui\imgui_impl_sdl_gl3.h"
 
+#include "PhysicsSettings.h"
 #include "SceneManager.h"
 #include "Utils.h"
-
-#include "PhysicsSettings.h"
 
 #include "Camera.h"
 #include "GameObject.h"
@@ -36,6 +35,9 @@ public:
 	void MainLoop();
 	void ShutDown();
 
+	PhysicsSettings* physics() { return m_physics; }
+	SceneManager* scenemanager() { return m_sceneManager; }
+
 private:
 	void InitGameObjects();
 	void HandleEvents(SDL_Event& _e, bool& _quit);
@@ -50,6 +52,9 @@ private:
 	SDL_GLContext m_Context;
 	SDL_Event e;
 	Uint64 m_currentTime = SDL_GetPerformanceCounter();
+
+	PhysicsSettings* m_physics;
+	SceneManager* m_sceneManager;
 
 	GameObject* bob;
 	Camera* camera;

@@ -42,6 +42,9 @@ void Game::Initialise()
 	ImGui_ImplSdlGL3_Init(m_Window);
 	ImGui::StyleColorsDark();
 
+	m_physics = new PhysicsSettings();
+	m_sceneManager = new SceneManager();
+
 	InitGameObjects();
 }
 
@@ -69,7 +72,7 @@ void Game::MainLoop()
 		}
 
 		// Update physics
-		PhysicsSettings::Instance().World()->stepSimulation(1.0f / 60.0f, 10);
+		m_physics->World()->stepSimulation(1.0f / 60.0f, 10);
 
 		bob->UpdateInput();
 		bob->UpdatePhysics();
@@ -125,7 +128,10 @@ void Game::ShutDown()
 	delete camera;
 	camera = nullptr;
 
-	PhysicsSettings::DestroyInstance();
+	delete m_physics;
+	m_physics = nullptr;
+	delete m_sceneManager;
+	m_sceneManager = nullptr;
 
 	// Cleanup imgui
 	ImGui_ImplSdlGL3_Shutdown();

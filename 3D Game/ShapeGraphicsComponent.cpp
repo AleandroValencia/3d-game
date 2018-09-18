@@ -5,7 +5,7 @@ void ShapeGraphicsComponent::Initialise(GameObject* _gameObject)
 	m_gameObject = _gameObject;
 	m_color = glm::vec3(1.0f, 1.0f, 1.0f);
 
-	//m_shape = kCube;
+	m_shape = kCube;
 
 	switch (m_shape)
 	{
