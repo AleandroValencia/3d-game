@@ -53,6 +53,7 @@ private:
 
 	GameObject* bob;
 	Camera* camera;
+	std::vector<GameObject*> m_gameObjects;
 	std::vector<GraphicsComponent*> m_graphicsComponents;
 
 	bool m_showWindow = true;
