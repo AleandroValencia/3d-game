@@ -40,7 +40,7 @@ public:
 
 private:
 	void InitGameObjects();
-	void HandleEvents(SDL_Event& _e, bool& _quit);
+	void HandleEvents(SDL_Event& _e);
 
 	Game();
 	static Game* m_instance;
@@ -61,7 +61,7 @@ private:
 	std::vector<GameObject*> m_gameObjects;
 	std::vector<GraphicsComponent*> m_graphicsComponents;
 
-	bool m_showWindow = true;
+	bool m_showWindow = true; 
 };
 
 #endif // !_GAME_H__

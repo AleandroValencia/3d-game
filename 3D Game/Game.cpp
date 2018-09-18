@@ -53,6 +53,7 @@ void Game::Initialise()
 	{
 		SDL_GL_SetSwapInterval(1);
 	}
+	SDL_SetRelativeMouseMode(SDL_TRUE);	// Get relative motion data in SDL_MOUSEMOTION event.
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -76,7 +77,7 @@ void Game::MainLoop()
 		float deltaTime = static_cast<float>((m_currentTime - elapsedTime) * 1000 / static_cast<float>(SDL_GetPerformanceFrequency()));
 		deltaTime = deltaTime * 0.001f;	// Convert ms to s
 
-		HandleEvents(e, m_closeApplication);
+		HandleEvents(e);
 		
 		ImGui_ImplSdlGL3_NewFrame(m_Window);
 		// Update
@@ -109,14 +110,14 @@ void Game::MainLoop()
 	}
 }
 
-void Game::HandleEvents(SDL_Event & _e, bool & _quit)
+void Game::HandleEvents(SDL_Event & _e)
 {
 	while (SDL_PollEvent(&_e) != 0)
 	{
 		ImGui_ImplSdlGL3_ProcessEvent(&_e);
 		if (_e.type == SDL_QUIT)
 		{
-			_quit = true;
+			m_closeApplication = true;
 		}
 		
 		if (_e.type == SDL_KEYDOWN)
@@ -132,6 +133,8 @@ void Game::HandleEvents(SDL_Event & _e, bool & _quit)
 				break;
 			case SDLK_RIGHT:
 				break;
+			case SDLK_ESCAPE:
+				SDL_SetRelativeMouseMode(static_cast<SDL_bool>(!SDL_GetRelativeMouseMode()));
 			default:
 				break;
 			}
@@ -141,13 +144,33 @@ void Game::HandleEvents(SDL_Event & _e, bool & _quit)
 		{
 			int x, y;
 			SDL_GetMouseState(&x, &y);
+
+			GLfloat xOffset = static_cast<GLfloat>(_e.motion.xrel);
+			GLfloat yOffset = -static_cast<GLfloat>(_e.motion.yrel);
+
+			GLfloat sensitivity = 0.1f;
+			xOffset *= sensitivity;
+			yOffset *= sensitivity;
+
+			camera->Rotate(glm::vec3(xOffset, yOffset, 0.0f));
 		}
 	}
 	// Key hold
 	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 	if (currentKeyStates[SDL_SCANCODE_W])
 	{
-		printf("pressing w\n");
+		camera->MoveForward();
+	}
+	else if (currentKeyStates[SDL_SCANCODE_S])
+	{
+		camera->MoveBackward();
+	}
+	if (currentKeyStates[SDL_SCANCODE_A]) {
+		camera->MoveLeft();
+	}
+	else if (currentKeyStates[SDL_SCANCODE_D])
+	{
+		camera->MoveRight();
 	}
 }
 

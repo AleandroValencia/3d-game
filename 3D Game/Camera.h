@@ -22,9 +22,20 @@ public:
 	void SetNearPlane(float _near) { m_near = _near; }
 	void SetFarPlane(float _far) { m_far = _far; }
 
+	void MoveForward() { m_transform->position += m_transform->forward * m_speed; }
+	void MoveBackward() { m_transform->position -= m_transform->forward * m_speed; }
+	void MoveLeft() { m_transform->position -= glm::normalize(glm::cross(m_transform->forward, m_transform->up)) * m_speed; }
+	void MoveRight() { m_transform->position += glm::normalize(glm::cross(m_transform->forward, m_transform->up)) * m_speed; }
+
+	void Rotate(glm::vec3 _eulers);
+
 	Transform* m_transform;
 private:
-	
+	float m_speed;
+
+	GLfloat m_pitch;
+	GLfloat m_yaw;
+
 	// Perspective camera
 	float m_fov;
 	float m_near;
