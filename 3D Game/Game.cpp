@@ -152,7 +152,7 @@ void Game::HandleEvents(SDL_Event & _e)
 			xOffset *= sensitivity;
 			yOffset *= sensitivity;
 
-			camera->Rotate(glm::vec3(xOffset, yOffset, 0.0f));
+			camera->Rotate(glm::vec3(yOffset, xOffset, 0.0f));
 		}
 	}
 	// Key hold

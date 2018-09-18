@@ -29,8 +29,8 @@ glm::mat4 Camera::Projection()
 
 void Camera::Rotate(glm::vec3 _eulers)
 {
-	m_yaw += _eulers.x;
-	m_pitch += _eulers.y;
+	m_yaw += _eulers.y;
+	m_pitch += _eulers.x;
 
 	if (m_pitch > 89.0f)
 		m_pitch = 89.0f;
