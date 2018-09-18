@@ -2,8 +2,8 @@
 
 Game* Game::m_instance = nullptr;
 
-Game::Game(){}
-Game::~Game(){}
+Game::Game() {}
+Game::~Game() {}
 
 Game & Game::Instance()
 {
@@ -135,4 +135,7 @@ void Game::ShutDown()
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;
 	SDL_Quit();
+
+	delete m_instance;
+	m_instance = nullptr;
 }
