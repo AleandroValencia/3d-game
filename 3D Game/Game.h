@@ -13,9 +13,8 @@
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\sdl\include\SDL_opengl.h"
 #include "Dependencies\Bullet\include\btBulletDynamicsCommon.h"
-#include "Dependencies\Dear_ImGui\imgui.h"
-#include "Dependencies\Dear_ImGui\imgui_impl_sdl_gl3.h"
 
+#include "InputHandler.h"
 #include "PhysicsSettings.h"
 #include "SceneManager.h"
 #include "Utils.h"
@@ -55,6 +54,7 @@ private:
 
 	PhysicsSettings* m_physics;
 	SceneManager* m_sceneManager;
+	InputHandler* m_input;
 
 	GameObject* bob;
 	Camera* camera;

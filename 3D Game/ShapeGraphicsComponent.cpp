@@ -55,11 +55,11 @@ void ShapeGraphicsComponent::Update()
 	}
 
 	glm::mat4 model;
-	model = glm::translate(model, m_gameObject->m_transform->position);
-	model = glm::rotate(model, glm::radians(m_gameObject->m_transform->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(m_gameObject->m_transform->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(m_gameObject->m_transform->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-	model = glm::scale(model, m_gameObject->m_transform->scale);
+	model = glm::translate(model, m_gameObject->GetTransform()->position);
+	model = glm::rotate(model, glm::radians(m_gameObject->GetTransform()->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(m_gameObject->GetTransform()->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(m_gameObject->GetTransform()->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::scale(model, m_gameObject->GetTransform()->scale);
 
 	glm::mat4 view = m_gameObject->m_camera->View();
 	glm::mat4 projection = m_gameObject->m_camera->Projection();

@@ -5,6 +5,7 @@ GameObject::GameObject(Camera* _camera, GraphicsComponent* _graphics, InputCompo
 	, m_graphics(_graphics)
 	, m_input(_input)
 	, m_physics(_physics)
+	, m_speed(0.1f)
 {
 	m_transform = new Transform();
 	m_transform->position.z = -5.0f;

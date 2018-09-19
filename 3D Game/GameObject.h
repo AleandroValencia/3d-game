@@ -37,15 +37,22 @@ public:
 	glm::vec3 GetScale() const;
 
 	Camera* m_camera;
-	Transform* m_transform;
 
+	Transform* GetTransform() const { return m_transform; }
 	GraphicsComponent* GetGraphicsComponent() const { return m_graphics; }
 	InputComponent* GetInputComponent() const { return m_input; }
 	PhysicsComponent* GetPhysicsComponent() const { return m_physics; }
+
+	void MoveForward() { m_transform->position += m_transform->forward * m_speed; }
+	void MoveBackward() { m_transform->position -= m_transform->forward * m_speed; }
+	void MoveLeft() { m_transform->position -= m_transform->right * m_speed; }
+	void MoveRight() { m_transform->position += m_transform->right * m_speed; }
 private:
 	GraphicsComponent* m_graphics;
 	InputComponent* m_input;
 	PhysicsComponent* m_physics;
+	Transform* m_transform;
+	float m_speed;
 };
 
 #endif // !_GAMEOBJECT_H__

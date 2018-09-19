@@ -29,7 +29,7 @@ void Game::InitGameObjects()
 	skyBoxTextures.push_back("Assets/Textures/Skybox/back.jpg");
 	skyBoxTextures.push_back("Assets/Textures/Skybox/front.jpg");
 	GameObject* skybox = new GameObject(camera, new ShapeGraphicsComponent(SKYBOX), nullptr, nullptr);
-	skybox->m_transform->scale = glm::vec3(100.0f);
+	skybox->GetTransform()->scale = glm::vec3(100.0f);
 	skybox->Initialise(skyboxProgram);
 	skybox->SetTextures(skyBoxTextures);
 	m_gameObjects.push_back(skybox);
@@ -63,6 +63,7 @@ void Game::Initialise()
 
 	m_physics = new PhysicsSettings();
 	m_sceneManager = new SceneManager();
+	m_input = new InputHandler();
 
 	InitGameObjects();
 }
@@ -77,8 +78,9 @@ void Game::MainLoop()
 		float deltaTime = static_cast<float>((m_currentTime - elapsedTime) * 1000 / static_cast<float>(SDL_GetPerformanceFrequency()));
 		deltaTime = deltaTime * 0.001f;	// Convert ms to s
 
-		HandleEvents(e);
-		
+		// Input events
+		m_input->Update(m_closeApplication);
+
 		ImGui_ImplSdlGL3_NewFrame(m_Window);
 		// Update
 		if (m_showWindow)
@@ -89,6 +91,31 @@ void Game::MainLoop()
 				m_showWindow = false;
 			ImGui::End();
 		}
+
+		if (m_input->GetKeyHold(SDL_SCANCODE_W))
+		{
+			camera->MoveForward();
+		}
+		else if (m_input->GetKeyHold(SDL_SCANCODE_S))
+		{
+			camera->MoveBackward();
+		}
+		if (m_input->GetKeyHold(SDL_SCANCODE_A))
+		{
+			camera->MoveLeft();
+		}
+		else if (m_input->GetKeyHold(SDL_SCANCODE_D))
+		{
+			camera->MoveRight();
+		}
+
+		glm::vec3 rotation = glm::vec3(m_input->GetYOffset(), m_input->GetXOffset(), 0.0f);
+		camera->Rotate(rotation);
+
+		// Toggle Cursor
+		if (m_input->GetKeyPress(SDL_SCANCODE_ESCAPE))
+			SDL_SetRelativeMouseMode(static_cast<SDL_bool>(!SDL_GetRelativeMouseMode()));
+
 
 		// Update physics
 		m_physics->World()->stepSimulation(1.0f / 60.0f, 10);
@@ -110,70 +137,6 @@ void Game::MainLoop()
 	}
 }
 
-void Game::HandleEvents(SDL_Event & _e)
-{
-	while (SDL_PollEvent(&_e) != 0)
-	{
-		ImGui_ImplSdlGL3_ProcessEvent(&_e);
-		if (_e.type == SDL_QUIT)
-		{
-			m_closeApplication = true;
-		}
-		
-		if (_e.type == SDL_KEYDOWN)
-		{
-			switch (_e.key.keysym.sym)
-			{
-			case SDLK_UP:
-				printf("Pressed up\n");
-				break;
-			case SDLK_DOWN:
-				break;
-			case SDLK_LEFT:
-				break;
-			case SDLK_RIGHT:
-				break;
-			case SDLK_ESCAPE:
-				SDL_SetRelativeMouseMode(static_cast<SDL_bool>(!SDL_GetRelativeMouseMode()));
-			default:
-				break;
-			}
-		}
-
-		if (_e.type == SDL_MOUSEMOTION)
-		{
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-
-			GLfloat xOffset = static_cast<GLfloat>(_e.motion.xrel);
-			GLfloat yOffset = -static_cast<GLfloat>(_e.motion.yrel);
-
-			GLfloat sensitivity = 0.1f;
-			xOffset *= sensitivity;
-			yOffset *= sensitivity;
-
-			camera->Rotate(glm::vec3(yOffset, xOffset, 0.0f));
-		}
-	}
-	// Key hold
-	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-	if (currentKeyStates[SDL_SCANCODE_W])
-	{
-		camera->MoveForward();
-	}
-	else if (currentKeyStates[SDL_SCANCODE_S])
-	{
-		camera->MoveBackward();
-	}
-	if (currentKeyStates[SDL_SCANCODE_A]) {
-		camera->MoveLeft();
-	}
-	else if (currentKeyStates[SDL_SCANCODE_D])
-	{
-		camera->MoveRight();
-	}
-}
-
 void Game::ShutDown()
 {
 	for (auto iter = m_gameObjects.begin(); iter != m_gameObjects.end(); ++iter)
@@ -189,6 +152,8 @@ void Game::ShutDown()
 	m_physics = nullptr;
 	delete m_sceneManager;
 	m_sceneManager = nullptr;
+	delete m_input;
+	m_input = nullptr;
 
 	// Cleanup imgui
 	ImGui_ImplSdlGL3_Shutdown();

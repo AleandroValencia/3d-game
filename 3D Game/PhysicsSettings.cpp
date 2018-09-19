@@ -2,7 +2,7 @@
 
 PhysicsSettings::PhysicsSettings()
 {
-	m_gravity = -9.81;
+	m_gravity = -9.81f;
 	m_overlappingPairCache = new btDbvtBroadphase();
 	m_collisionConfiguration = new btDefaultCollisionConfiguration();
 	m_dispatcher = new btCollisionDispatcher(m_collisionConfiguration);

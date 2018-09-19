@@ -40,7 +40,7 @@ void GraphicsComponent::SetTextures(std::vector<std::string>& _textures)
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	SDL_Surface* image;
-	for (int i = 0; i < _textures.size(); ++i)
+	for (unsigned int i = 0; i < _textures.size(); ++i)
 	{
 		image = IMG_Load(_textures[i].c_str());
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, image->w, image->h, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
