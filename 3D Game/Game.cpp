@@ -110,12 +110,12 @@ void Game::MainLoop()
 		}
 
 		glm::vec3 rotation = glm::vec3(m_input->GetYOffset(), m_input->GetXOffset(), 0.0f);
-		camera->Rotate(rotation);
+		//camera->Rotate(rotation);
+		camera->RotateAround(*(bob->GetTransform()), rotation);
 
 		// Toggle Cursor
 		if (m_input->GetKeyPress(SDL_SCANCODE_ESCAPE))
 			SDL_SetRelativeMouseMode(static_cast<SDL_bool>(!SDL_GetRelativeMouseMode()));
-
 
 		// Update physics
 		m_physics->World()->stepSimulation(1.0f / 60.0f, 10);
