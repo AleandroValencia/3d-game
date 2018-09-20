@@ -42,7 +42,7 @@ void Game::InitGameObjects()
 	m_gameObjects.push_back(bob);
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 
-	GameObject* cameraController = new GameObject(camera, nullptr, new ThirdPersonCameraInputComponent(), nullptr);
+	GameObject* cameraController = new GameObject(camera, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
 	cameraController->Initialise();
 	m_gameObjects.push_back(cameraController);
 	m_inputComponents.push_back(cameraController->GetInputComponent());
