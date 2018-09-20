@@ -18,7 +18,11 @@ void Game::InitGameObjects()
 {
 	ShaderLoader sl;
 
+	glm::vec3 lightPos = glm::vec3(2.4f, 0.0f, 4.0f);
+
 	camera = new Camera();
+	camera->m_transform->position = glm::vec3(0.0f, 0.0f, 6.0f);
+	light = new Light(lightPos);
 
 	GLuint skyboxProgram = sl.CreateProgram("Assets/Shaders/Vertex/CubeMap.vs", "Assets/Shaders/Fragment/CubeMap.fs");
 	std::vector<std::string> skyBoxTextures;
@@ -28,24 +32,33 @@ void Game::InitGameObjects()
 	skyBoxTextures.push_back("Assets/Textures/Skybox/bottom.jpg");
 	skyBoxTextures.push_back("Assets/Textures/Skybox/back.jpg");
 	skyBoxTextures.push_back("Assets/Textures/Skybox/front.jpg");
-	GameObject* skybox = new GameObject(camera, new ShapeGraphicsComponent(SKYBOX), nullptr, nullptr);
+	GameObject* skybox = new GameObject(camera, nullptr, new ShapeGraphicsComponent(SKYBOX), nullptr, nullptr);
 	skybox->GetTransform()->scale = glm::vec3(100.0f);
 	skybox->Initialise(skyboxProgram);
 	skybox->SetTextures(skyBoxTextures);
 	m_gameObjects.push_back(skybox);
 	m_graphicsComponents.push_back(skybox->GetGraphicsComponent());
 
-	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/Texture.vs", "Assets/Shaders/Fragment/Texture.fs");
-	bob = new GameObject(camera, new ShapeGraphicsComponent(TRIANGLE), nullptr, nullptr);
+	GLuint simpleProgram = sl.CreateProgram("Assets/Shaders/Vertex/Simple.vs", "Assets/Shaders/Fragment/Simple.fs");
+	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/SimpleLighting.vs", "Assets/Shaders/Fragment/SimpleLighting.fs");
+	bob = new GameObject(camera, light, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
 	bob->Initialise(program);
-	bob->SetTexture("Assets/Textures/Grass.jpg");
+	bob->SetTexture("Assets/Textures/rayman.jpg");
+	//bob->GetTransform()->scale = glm::vec3(50.0f, 1.0f, 50.0f);
+	bob->GetTransform()->position.y = 0;
 	m_gameObjects.push_back(bob);
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 
-	GameObject* cameraController = new GameObject(camera, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
+	GameObject* cameraController = new GameObject(camera, nullptr, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
 	cameraController->Initialise();
 	m_gameObjects.push_back(cameraController);
 	m_inputComponents.push_back(cameraController->GetInputComponent());
+
+	GameObject* lightBox = new GameObject(camera, nullptr, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
+	lightBox->Initialise(simpleProgram);
+	lightBox->GetTransform()->position = lightPos;
+	m_gameObjects.push_back(lightBox);
+	m_graphicsComponents.push_back(lightBox->GetGraphicsComponent());
 }
 
 void Game::Initialise()
@@ -65,6 +78,9 @@ void Game::Initialise()
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	ImGui_ImplSdlGL3_Init(m_Window);
 	ImGui::StyleColorsDark();
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	m_physics = new PhysicsSettings();
 	m_sceneManager = new SceneManager();
@@ -133,6 +149,8 @@ void Game::ShutDown()
 
 	delete camera;
 	camera = nullptr;
+	delete light;
+	light = nullptr;
 
 	delete m_physics;
 	m_physics = nullptr;

@@ -123,6 +123,9 @@
     <ClCompile Include="FirstPersonCameraInputComponent.cpp">
       <Filter>Source Files\Components\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h">

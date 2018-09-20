@@ -7,6 +7,7 @@
 #include "glm\glm.hpp"
 
 #include "Camera.h"
+#include "Light.h"
 #include "GraphicsComponent.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
@@ -22,7 +23,7 @@ enum COMPONENT
 class GameObject
 {
 public:
-	GameObject(Camera* _camera, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics);
+	GameObject(Camera* _camera, Light* _light, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics);
 	~GameObject();
 
 	void Initialise();
@@ -38,6 +39,7 @@ public:
 	glm::vec3 GetScale() const;
 
 	Camera* m_camera;
+	Light* GetLight() const { return m_light; }
 
 	Transform* GetTransform() const { return m_transform; }
 	GraphicsComponent* GetGraphicsComponent() const { return m_graphics; }
@@ -49,6 +51,7 @@ public:
 	void MoveLeft() { m_transform->position -= m_transform->right * m_speed; }
 	void MoveRight() { m_transform->position += m_transform->right * m_speed; }
 private:
+	Light* m_light;
 	GraphicsComponent* m_graphics;
 	InputComponent* m_input;
 	PhysicsComponent* m_physics;

@@ -1,14 +1,14 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Camera* _camera, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics)
+GameObject::GameObject(Camera* _camera, Light* _light, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics)
 	: m_camera(_camera)
+	, m_light(_light)
 	, m_graphics(_graphics)
 	, m_input(_input)
 	, m_physics(_physics)
 	, m_speed(0.1f)
 {
 	m_transform = new Transform();
-	m_transform->position.z = -5.0f;
 }
 
 GameObject::~GameObject()

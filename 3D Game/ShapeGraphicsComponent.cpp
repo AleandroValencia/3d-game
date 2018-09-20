@@ -54,7 +54,7 @@ void ShapeGraphicsComponent::Update()
 		glUniform1i(glGetUniformLocation(m_program, "Texture"), 0);
 	}
 
-	glm::mat4 model;
+	glm::mat4 model = glm::mat4();
 	model = glm::translate(model, m_gameObject->GetTransform()->position);
 	model = glm::rotate(model, glm::radians(m_gameObject->GetTransform()->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(m_gameObject->GetTransform()->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -74,20 +74,23 @@ void ShapeGraphicsComponent::Update()
 	GLint objColorLoc = glGetUniformLocation(m_program, "objectColor");
 	glUniform3f(objColorLoc, m_color.x, m_color.y, m_color.z);
 
-	GLuint cameraPosLoc = glGetUniformLocation(m_program, "cameraPos");
-	glUniform3f(cameraPosLoc, m_gameObject->m_camera->m_transform->position.x, m_gameObject->m_camera->m_transform->position.y, m_gameObject->m_camera->m_transform->position.z);
+	if (m_gameObject->GetLight())
+	{
+		GLuint viewPosLoc = glGetUniformLocation(m_program, "viewPos");
+		glUniform3f(viewPosLoc, m_gameObject->m_camera->m_transform->position.x, m_gameObject->m_camera->m_transform->position.y, m_gameObject->m_camera->m_transform->position.z);
 
-	//GLuint lightPosLoc = glGetUniformLocation(m_program, "lightPos");
-	//glUniform3f(lightPosLoc, this->light->getPosition().x, this->light->getPosition().y, this->light->getPosition().z);
+		GLuint lightPosLoc = glGetUniformLocation(m_program, "lightPos");
+		glUniform3f(lightPosLoc, m_gameObject->GetLight()->GetPosition().x, m_gameObject->GetLight()->GetPosition().y, m_gameObject->GetLight()->GetPosition().z);
 
-	//GLuint lightColorLoc = glGetUniformLocation(m_program, "lightColor");
-	//glUniform3f(lightColorLoc, this->light->getColor().x, this->light->getColor().y, this->light->getColor().z);
+		GLuint lightColorLoc = glGetUniformLocation(m_program, "lightColor");
+		glUniform3f(lightColorLoc, m_gameObject->GetLight()->GetColor().x, m_gameObject->GetLight()->GetColor().y, m_gameObject->GetLight()->GetColor().z);
 
-	//GLuint specularStrengthLoc = glGetUniformLocation(m_program, "specularStrength");
-	//glUniform1f(specularStrengthLoc, specularStrength);
+		GLuint specularStrengthLoc = glGetUniformLocation(m_program, "specularStrength");
+		glUniform1f(specularStrengthLoc, m_gameObject->GetLight()->GetSpecular());
 
-	//GLuint ambientStrengthLoc = glGetUniformLocation(m_program, "ambientStrength");
-	//glUniform1f(ambientStrengthLoc, ambientStrength);
+		GLuint ambientStrengthLoc = glGetUniformLocation(m_program, "ambientStrength");
+		glUniform1f(ambientStrengthLoc, m_gameObject->GetLight()->GetAmbient());
+	}
 
 	glBindVertexArray(m_vao);
 	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);

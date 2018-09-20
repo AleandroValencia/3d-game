@@ -23,6 +23,7 @@
 #include "Utils.h"
 
 #include "Camera.h"
+#include "Light.h"
 #include "GameObject.h"
 #include "ShapeGraphicsComponent.h"
 #include "ShaderLoader.h"
@@ -42,7 +43,6 @@ public:
 
 private:
 	void InitGameObjects();
-	void HandleEvents(SDL_Event& _e);
 
 	Game();
 	static Game* m_instance;
@@ -61,6 +61,7 @@ private:
 
 	GameObject* bob;
 	Camera* camera;
+	Light* light;
 	std::vector<GameObject*> m_gameObjects;
 	std::vector<GraphicsComponent*> m_graphicsComponents;
 	std::vector<InputComponent*> m_inputComponents;

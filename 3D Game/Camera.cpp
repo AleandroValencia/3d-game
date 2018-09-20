@@ -24,7 +24,7 @@ glm::mat4 Camera::View()
 
 glm::mat4 Camera::Projection()
 {
-	return glm::perspective(m_fov, static_cast<GLfloat>(Utils::WIDTH) / static_cast<GLfloat>(Utils::HEIGHT), m_near, m_far);
+	return glm::perspective(glm::radians(m_fov), static_cast<GLfloat>(Utils::WIDTH) / static_cast<GLfloat>(Utils::HEIGHT), m_near, m_far);
 }
 
 void Camera::Rotate(glm::vec3 _eulers)
