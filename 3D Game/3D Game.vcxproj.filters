@@ -120,6 +120,9 @@
     <ClCompile Include="ThirdPersonCameraInputComponent.cpp">
       <Filter>Source Files\Components\Input</Filter>
     </ClCompile>
+    <ClCompile Include="FirstPersonCameraInputComponent.cpp">
+      <Filter>Source Files\Components\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h">
@@ -204,6 +207,9 @@
       <Filter>Header Files\Components\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="ThirdPersonCameraInputComponent.h">
+      <Filter>Header Files\Components\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="FirstPersonCameraInputComponent.h">
       <Filter>Header Files\Components\Input</Filter>
     </ClInclude>
   </ItemGroup>

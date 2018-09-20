@@ -14,6 +14,7 @@
 #include "Dependencies\sdl\include\SDL_opengl.h"
 #include "Dependencies\Bullet\include\btBulletDynamicsCommon.h"
 
+#include "FirstPersonCameraInputComponent.h"
 #include "ThirdPersonCameraInputComponent.h"
 
 #include "InputHandler.h"

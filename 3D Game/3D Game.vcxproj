@@ -145,6 +145,7 @@
     <ClCompile Include="Dependencies\Dear_ImGui\imgui_demo.cpp" />
     <ClCompile Include="Dependencies\Dear_ImGui\imgui_draw.cpp" />
     <ClCompile Include="Dependencies\Dear_ImGui\imgui_impl_sdl_gl3.cpp" />
+    <ClCompile Include="FirstPersonCameraInputComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Dependencies\Dear_ImGui\stb_rect_pack.h" />
     <ClInclude Include="Dependencies\Dear_ImGui\stb_textedit.h" />
     <ClInclude Include="Dependencies\Dear_ImGui\stb_truetype.h" />
+    <ClInclude Include="FirstPersonCameraInputComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsComponent.h" />
