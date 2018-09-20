@@ -109,3 +109,22 @@ glm::vec3 GameObject::GetScale() const
 {
 	return m_transform->scale;
 }
+
+void GameObject::SetPosition(glm::vec3 _position)
+{
+	m_transform->position = _position;
+	if (m_physics)
+		m_physics->SetPosition(_position);
+}
+
+void GameObject::SetRotation(glm::vec3 _eulerAngles)
+{
+	m_transform->rotation = _eulerAngles;
+}
+
+void GameObject::SetScale(glm::vec3 _scale)
+{
+	m_transform->scale = _scale;
+	if (m_physics)
+		m_physics->SetScale(_scale);
+}

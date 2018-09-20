@@ -2,6 +2,7 @@
 #define _UTILS_H__
 #pragma once
 
+#include "Dependencies\Bullet\include\btBulletDynamicsCommon.h"
 #include "Dependencies\glew\glew.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -93,6 +94,8 @@ public:
 	static void setCubeData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
 	static void setSkyBoxData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
 	static void setSphereData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
+
+	static btVector3 glmToBullet(const glm::vec3& _glm);
 };
 
 #endif // !_UTILS_H__

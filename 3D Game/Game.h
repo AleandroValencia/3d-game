@@ -30,13 +30,15 @@
 #include "GameObject.h"
 #include "ShapeGraphicsComponent.h"
 #include "ShaderLoader.h"
+#include "StaticPhysicsComponent.h"
 
 enum GAMEOBJECTNAME
 {
 	SKYBOX = 0,
 	BOX,
 	CAMERA_CONTROLLER,
-	LIGHT_BOX
+	LIGHT_BOX, 
+	GROUND
 };
 
 class Game

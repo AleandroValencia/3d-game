@@ -33,7 +33,7 @@ void Game::InitGameObjects()
 	skyBoxTextures.push_back("Assets/Textures/Skybox/back.jpg");
 	skyBoxTextures.push_back("Assets/Textures/Skybox/front.jpg");
 	GameObject* skybox = new GameObject("Skybox", camera, nullptr, new ShapeGraphicsComponent(ModelType::SKYBOXSHAPE), nullptr, nullptr);
-	skybox->GetTransform()->scale = glm::vec3(100.0f);
+	skybox->SetScale(glm::vec3(100.0f));
 	skybox->Initialise(skyboxProgram);
 	skybox->SetTextures(skyBoxTextures);
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(GAMEOBJECTNAME::SKYBOX, skybox));
@@ -44,8 +44,6 @@ void Game::InitGameObjects()
 	bob = new GameObject("Box", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
 	bob->Initialise(program);
 	bob->SetTexture("Assets/Textures/rayman.jpg");
-	//bob->GetTransform()->scale = glm::vec3(50.0f, 1.0f, 50.0f);
-	bob->GetTransform()->position.y = 0;
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(BOX, bob));
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 
@@ -56,9 +54,20 @@ void Game::InitGameObjects()
 
 	GameObject* lightBox = new GameObject("Light box", camera, nullptr, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
 	lightBox->Initialise(simpleProgram);
-	lightBox->GetTransform()->position = lightPos;
+	lightBox->SetPosition(lightPos);
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(LIGHT_BOX, lightBox));
 	m_graphicsComponents.push_back(lightBox->GetGraphicsComponent());
+
+	GameObject* ground = new GameObject("Ground", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, new StaticPhysicsComponent(0.0f));
+	ground->Initialise(program);
+	ground->SetTexture("Assets/Textures/grass.jpg");
+	ground->SetPosition(glm::vec3(0.0f, -3.0f, 0.0f));
+	ground->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
+	m_graphicsComponents.push_back(ground->GetGraphicsComponent());
+	m_physics->AddCollisionShape(ground->GetPhysicsComponent()->GetCollisionShape());
+	m_physics->World()->addRigidBody(ground->GetPhysicsComponent()->GetRigidBody());
+	m_physics->World()->updateSingleAabb(ground->GetPhysicsComponent()->GetRigidBody());
+	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(GROUND, ground));
 }
 
 void Game::Initialise()
@@ -108,9 +117,9 @@ void Game::MainLoop()
 		{
 			ImGui::Begin("Window", &m_showWindow);
 			ImGui::Text(m_gameObjects[BOX]->GetName().c_str());
-			ImGui::InputFloat("x", &m_gameObjects[BOX]->GetTransform()->position.x);
-			ImGui::InputFloat("y", &m_gameObjects[BOX]->GetTransform()->position.y);
-			ImGui::InputFloat("z", &m_gameObjects[BOX]->GetTransform()->position.z);
+			//ImGui::InputFloat("x", &m_gameObjects[BOX]->GetPosition().x);
+			//ImGui::InputFloat("y", &m_gameObjects[BOX]->GetTransform()->position.y);
+			//ImGui::InputFloat("z", &m_gameObjects[BOX]->GetTransform()->position.z);
 			if (ImGui::Button("Save"))
 			{
 				// TODO: save values to .ini file
@@ -127,8 +136,20 @@ void Game::MainLoop()
 
 		// Update physics
 		m_physics->World()->stepSimulation(1.0f / 60.0f, 10);
-
-		bob->UpdatePhysics();
+		for (int i = m_physics->World()->getNumCollisionObjects() - 1; i >= 0; --i)
+		{
+			btCollisionObject* obj = m_physics->World()->getCollisionObjectArray()[i];
+			btRigidBody* body = btRigidBody::upcast(obj);
+			btTransform trans;
+			if (body && body->getMotionState())
+			{
+				body->getMotionState()->getWorldTransform(trans);
+			}
+			else
+			{
+				trans = obj->getWorldTransform();
+			}
+		}
 
 		// Render
 		glClearColor(1.0, 0.0, 0.0, 1.0);
@@ -146,12 +167,6 @@ void Game::MainLoop()
 
 void Game::ShutDown()
 {
-	for (auto iter = m_gameObjects.begin(); iter != m_gameObjects.end(); ++iter)
-	{
-		delete iter->second;
-		iter->second = nullptr;
-	}
-
 	delete camera;
 	camera = nullptr;
 	delete light;
@@ -163,6 +178,12 @@ void Game::ShutDown()
 	m_sceneManager = nullptr;
 	delete m_input;
 	m_input = nullptr;
+
+	for (auto iter = m_gameObjects.begin(); iter != m_gameObjects.end(); ++iter)
+	{
+		delete iter->second;
+		iter->second = nullptr;
+	}
 
 	// Cleanup imgui
 	ImGui_ImplSdlGL3_Shutdown();

@@ -215,3 +215,8 @@ void Utils::setSphereData(std::vector<VertexFormat>& _vertices, std::vector<GLui
 	_vertices = Vertices;
 	_indices = Indices;
 }
+
+btVector3 Utils::glmToBullet(const glm::vec3& _glm)
+{
+	return btVector3(_glm.x, _glm.y, _glm.z);
+}

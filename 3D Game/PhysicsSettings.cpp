@@ -59,3 +59,8 @@ btDiscreteDynamicsWorld * PhysicsSettings::World()
 {
 	return m_dynamicsWorld;
 }
+
+void PhysicsSettings::AddCollisionShape(btCollisionShape * _collisionShape)
+{
+	m_collisionShapes.push_back(_collisionShape);
+}

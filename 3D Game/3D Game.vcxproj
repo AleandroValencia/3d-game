@@ -160,6 +160,7 @@
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="ShapeGraphicsComponent.cpp" />
+    <ClCompile Include="StaticPhysicsComponent.cpp" />
     <ClCompile Include="ThirdPersonCameraInputComponent.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -190,6 +191,7 @@
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="ShapeGraphicsComponent.h" />
+    <ClInclude Include="StaticPhysicsComponent.h" />
     <ClInclude Include="ThirdPersonCameraInputComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Utils.h" />

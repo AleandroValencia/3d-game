@@ -14,6 +14,7 @@ public:
 	float GetGravity();
 
 	btDiscreteDynamicsWorld* World();
+	void AddCollisionShape(btCollisionShape* _collisionShape);
 
 private:
 	float m_gravity;

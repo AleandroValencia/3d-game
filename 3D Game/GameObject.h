@@ -42,10 +42,13 @@ public:
 	Camera* m_camera;
 	Light* GetLight() const { return m_light; }
 
-	Transform* GetTransform() const { return m_transform; }
-	GraphicsComponent* GetGraphicsComponent() const { return m_graphics; }
-	InputComponent* GetInputComponent() const { return m_input; }
-	PhysicsComponent* GetPhysicsComponent() const { return m_physics; }
+	void SetPosition(glm::vec3 _position);
+	void SetRotation(glm::vec3 _eulerAngles);
+	void SetScale(glm::vec3 _scale);
+
+	GraphicsComponent* GetGraphicsComponent()  { return m_graphics; }
+	InputComponent* GetInputComponent()  { return m_input; }
+	PhysicsComponent* GetPhysicsComponent()  { return m_physics; }
 
 	void MoveForward() { m_transform->position += m_transform->forward * m_speed; }
 	void MoveBackward() { m_transform->position -= m_transform->forward * m_speed; }
