@@ -41,11 +41,14 @@ void Game::InitGameObjects()
 
 	GLuint simpleProgram = sl.CreateProgram("Assets/Shaders/Vertex/Simple.vs", "Assets/Shaders/Fragment/Simple.fs");
 	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/SimpleLighting.vs", "Assets/Shaders/Fragment/SimpleLighting.fs");
-	bob = new GameObject("Box", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
+	bob = new GameObject("Box", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, new StaticPhysicsComponent(1.0f));
 	bob->Initialise(program);
 	bob->SetTexture("Assets/Textures/rayman.jpg");
+	bob->SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(BOX, bob));
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
+	m_physics->AddCollisionShape(bob->GetPhysicsComponent()->GetCollisionShape());
+	m_physics->World()->addRigidBody(bob->GetPhysicsComponent()->GetRigidBody());
 
 	GameObject* cameraController = new GameObject("Camera Controller", camera, nullptr, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
 	cameraController->Initialise();
@@ -149,6 +152,7 @@ void Game::MainLoop()
 			{
 				trans = obj->getWorldTransform();
 			}
+			printf("world pos object %d = %f,%f,%f\n", i, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
 		}
 
 		// Render
