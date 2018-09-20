@@ -8,7 +8,7 @@
 class ShapeGraphicsComponent : public GraphicsComponent
 {
 public:
-	ShapeGraphicsComponent(ModelType _shape) { m_shape = _shape; }
+	ShapeGraphicsComponent(ModelType _shape) : m_shape(_shape){}
 	~ShapeGraphicsComponent() {}
 
 	void Initialise(GameObject* _gameObject);

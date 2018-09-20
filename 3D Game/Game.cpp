@@ -41,6 +41,11 @@ void Game::InitGameObjects()
 	bob->SetTexture("Assets/Textures/Grass.jpg");
 	m_gameObjects.push_back(bob);
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
+
+	GameObject* cameraController = new GameObject(camera, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
+	cameraController->Initialise();
+	m_gameObjects.push_back(cameraController);
+	m_inputComponents.push_back(cameraController->GetInputComponent());
 }
 
 void Game::Initialise()
@@ -78,11 +83,11 @@ void Game::MainLoop()
 		float deltaTime = static_cast<float>((m_currentTime - elapsedTime) * 1000 / static_cast<float>(SDL_GetPerformanceFrequency()));
 		deltaTime = deltaTime * 0.001f;	// Convert ms to s
 
-		// Input events
+		// Input Event Handler
 		m_input->Update(m_closeApplication);
 
 		ImGui_ImplSdlGL3_NewFrame(m_Window);
-		// Update
+		// Update imgui
 		if (m_showWindow)
 		{
 			ImGui::Begin("Window", &m_showWindow);
@@ -92,26 +97,8 @@ void Game::MainLoop()
 			ImGui::End();
 		}
 
-		if (m_input->GetKeyHold(SDL_SCANCODE_W))
-		{
-			camera->MoveForward();
-		}
-		else if (m_input->GetKeyHold(SDL_SCANCODE_S))
-		{
-			camera->MoveBackward();
-		}
-		if (m_input->GetKeyHold(SDL_SCANCODE_A))
-		{
-			camera->MoveLeft();
-		}
-		else if (m_input->GetKeyHold(SDL_SCANCODE_D))
-		{
-			camera->MoveRight();
-		}
-
-		glm::vec3 rotation = glm::vec3(m_input->GetYOffset(), m_input->GetXOffset(), 0.0f);
-		//camera->Rotate(rotation);
-		camera->RotateAround(*(bob->GetTransform()), rotation);
+		// Update Input Components
+		std::for_each(m_inputComponents.begin(), m_inputComponents.end(), [](InputComponent* _i) { _i->Update(); });
 
 		// Toggle Cursor
 		if (m_input->GetKeyPress(SDL_SCANCODE_ESCAPE))
@@ -120,7 +107,6 @@ void Game::MainLoop()
 		// Update physics
 		m_physics->World()->stepSimulation(1.0f / 60.0f, 10);
 
-		bob->UpdateInput();
 		bob->UpdatePhysics();
 
 		// Render

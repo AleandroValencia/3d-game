@@ -28,7 +28,7 @@ public:
 	void MoveRight() { m_transform->position += glm::normalize(glm::cross(m_transform->forward, m_transform->up)) * m_speed; }
 
 	void Rotate(glm::vec3 _eulers);
-	void RotateAround(Transform& _object, glm::vec3 _eulers);
+	void RotateAround(Transform* _object, glm::vec3 _eulers);
 
 	Transform* m_transform;
 private:

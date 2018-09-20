@@ -26,10 +26,30 @@ GameObject::~GameObject()
 	m_physics = nullptr;
 }
 
+void GameObject::Initialise()
+{
+	if (m_graphics)
+	{
+		m_graphics->Initialise(this);
+	}
+	if (m_input)
+	{
+		m_input->Initialise(this);
+	}
+
+}
+
 void GameObject::Initialise(GLuint _program)
 {
-	m_graphics->Initialise(this);
-	m_graphics->SetProgram(_program);
+	if (m_graphics)
+	{
+		m_graphics->Initialise(this);
+		m_graphics->SetProgram(_program);
+	}
+	if (m_input)
+	{
+		m_input->Initialise(this);
+	}
 }
 
 void GameObject::SetTexture(std::string _filePath)
@@ -46,7 +66,7 @@ void GameObject::UpdateInput()
 {
 	if (m_input != nullptr)
 	{
-		m_input->Update(*this);
+		m_input->Update();
 	}
 }
 

@@ -25,6 +25,7 @@ public:
 	GameObject(Camera* _camera, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics);
 	~GameObject();
 
+	void Initialise();
 	void Initialise(GLuint _program);
 	void SetTexture(std::string _filePath);
 	void SetTextures(std::vector<std::string>& _filePath);

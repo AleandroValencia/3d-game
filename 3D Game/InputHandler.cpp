@@ -1,10 +1,12 @@
 #include "InputHandler.h"
 #include <stdio.h>
 
+const Uint8* InputHandler::m_currentKeyStates = SDL_GetKeyboardState(nullptr);
+GLfloat InputHandler::m_xOffset = 0.0f;
+GLfloat InputHandler::m_yOffset = 0.0f;
+
 InputHandler::InputHandler()
-	: m_xOffset(0.0f)
-	, m_yOffset(0.0f)
-	, m_sensitivity(0.1f)
+	: m_sensitivity(0.1f)
 	, m_mouseMove(false)
 {
 }
@@ -64,7 +66,7 @@ bool InputHandler::GetKeyUp(SDL_Scancode _key) const
 	return m_keyUp[_key];
 }
 
-bool InputHandler::GetKeyHold(SDL_Scancode _key) const
+bool InputHandler::GetKeyHold(SDL_Scancode _key)
 {
 	return m_currentKeyStates[_key];
 }

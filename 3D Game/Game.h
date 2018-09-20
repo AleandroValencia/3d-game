@@ -14,6 +14,8 @@
 #include "Dependencies\sdl\include\SDL_opengl.h"
 #include "Dependencies\Bullet\include\btBulletDynamicsCommon.h"
 
+#include "ThirdPersonCameraInputComponent.h"
+
 #include "InputHandler.h"
 #include "PhysicsSettings.h"
 #include "SceneManager.h"
@@ -60,6 +62,7 @@ private:
 	Camera* camera;
 	std::vector<GameObject*> m_gameObjects;
 	std::vector<GraphicsComponent*> m_graphicsComponents;
+	std::vector<InputComponent*> m_inputComponents;
 
 	bool m_showWindow = true; 
 };

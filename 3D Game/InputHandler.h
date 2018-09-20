@@ -22,18 +22,18 @@ public:
 
 	bool GetKeyPress(SDL_Scancode _key) const;
 	bool GetKeyUp(SDL_Scancode _key) const;
-	bool GetKeyHold(SDL_Scancode _key) const;
+	static bool GetKeyHold(SDL_Scancode _key);
 	bool isMouseMoving() const { return m_mouseMove; }
 	void MouseMove(SDL_Event& _e);
 
-	GLfloat GetXOffset() const { return m_xOffset; }
-	GLfloat GetYOffset() const { return m_yOffset; }
+	static GLfloat GetXOffset() { return m_xOffset; }
+	static GLfloat GetYOffset() { return m_yOffset; }
 	bool MouseMove() const { return m_mouseMove; }
 
 private:
-	const Uint8* m_currentKeyStates = SDL_GetKeyboardState(nullptr);
-	GLfloat m_xOffset;
-	GLfloat m_yOffset;
+	static const Uint8* m_currentKeyStates;
+	static GLfloat m_xOffset;
+	static GLfloat m_yOffset;
 	GLfloat m_sensitivity;
 
 	bool m_mouseMove;

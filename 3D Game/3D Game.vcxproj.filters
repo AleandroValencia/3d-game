@@ -31,6 +31,30 @@
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{56f7a75b-9e86-4712-aa4e-e8096c1545b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components\Base">
+      <UniqueIdentifier>{cc6dfd01-2f4b-4ecf-a282-093a5c61e372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Graphics">
+      <UniqueIdentifier>{bfbceacb-3587-48eb-a11c-615c507ed14c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Input">
+      <UniqueIdentifier>{847893e9-5281-4f09-9ed9-0676421ec62f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Physics">
+      <UniqueIdentifier>{bfc1d997-228c-48a4-9606-f60d4f61830e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Base">
+      <UniqueIdentifier>{8f5c1e4a-9555-4d6a-b63c-6a01fc6c5c66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Graphics">
+      <UniqueIdentifier>{885fbecd-0ff7-4b2c-96c9-f633ebf98c3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Input">
+      <UniqueIdentifier>{26f6c75b-6211-428b-8ff2-b1bbe7026aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Physics">
+      <UniqueIdentifier>{f3e47cc7-ba14-4d97-bad4-2a5c196c79e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,12 +96,6 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicsComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="ShapeGraphicsComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Shape.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -92,6 +110,15 @@
     </ClCompile>
     <ClCompile Include="InputHandler.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsComponent.cpp">
+      <Filter>Source Files\Components\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ShapeGraphicsComponent.cpp">
+      <Filter>Source Files\Components\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdPersonCameraInputComponent.cpp">
+      <Filter>Source Files\Components\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,21 +170,6 @@
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="InputComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeGraphicsComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Shape.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -175,6 +187,24 @@
     </ClInclude>
     <ClInclude Include="Command.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsComponent.h">
+      <Filter>Header Files\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Header Files\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Header Files\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Header Files\Components\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeGraphicsComponent.h">
+      <Filter>Header Files\Components\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdPersonCameraInputComponent.h">
+      <Filter>Header Files\Components\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
