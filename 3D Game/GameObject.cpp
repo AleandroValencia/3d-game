@@ -36,19 +36,18 @@ void GameObject::Initialise()
 	{
 		m_input->Initialise(this);
 	}
-
+	if (m_physics)
+	{
+		m_physics->Initialise(this);
+	}
 }
 
 void GameObject::Initialise(GLuint _program)
 {
+	Initialise();
 	if (m_graphics)
 	{
-		m_graphics->Initialise(this);
 		m_graphics->SetProgram(_program);
-	}
-	if (m_input)
-	{
-		m_input->Initialise(this);
 	}
 }
 
@@ -74,7 +73,7 @@ void GameObject::UpdatePhysics()
 {
 	if (m_physics != nullptr)
 	{
-		m_physics->Update(*this);
+		m_physics->Update();
 	}
 }
 

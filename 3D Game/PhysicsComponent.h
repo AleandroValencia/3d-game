@@ -10,9 +10,12 @@ class PhysicsComponent
 {
 public:
 	virtual ~PhysicsComponent() {};
-	virtual void Update(GameObject& _gameObject) = 0;
+	virtual void Initialise(GameObject* _gameObject) = 0;
+	virtual void Update() = 0;
 
-private:
+protected:
+	GameObject* m_gameObject;
+
 	btCollisionShape* m_collisionShape;
 	btTransform m_transform;
 	btScalar m_mass;
