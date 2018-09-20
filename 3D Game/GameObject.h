@@ -23,7 +23,7 @@ enum COMPONENT
 class GameObject
 {
 public:
-	GameObject(Camera* _camera, Light* _light, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics);
+	GameObject(std::string _name, Camera* _camera, Light* _light, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics);
 	~GameObject();
 
 	void Initialise();
@@ -34,6 +34,7 @@ public:
 	void UpdatePhysics();
 	void Render();
 
+	std::string GetName() const;
 	glm::vec3 GetPosition() const;
 	glm::vec3 GetRotation() const;
 	glm::vec3 GetScale() const;
@@ -51,6 +52,7 @@ public:
 	void MoveLeft() { m_transform->position -= m_transform->right * m_speed; }
 	void MoveRight() { m_transform->position += m_transform->right * m_speed; }
 private:
+	std::string m_name;
 	Light* m_light;
 	GraphicsComponent* m_graphics;
 	InputComponent* m_input;

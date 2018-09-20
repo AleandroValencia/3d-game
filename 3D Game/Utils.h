@@ -14,7 +14,7 @@ enum ModelType {
 	QUAD = 1,
 	CUBE = 2,
 	SPHERE = 3,
-	SKYBOX
+	SKYBOXSHAPE
 };
 
 struct Position {

@@ -32,32 +32,32 @@ void Game::InitGameObjects()
 	skyBoxTextures.push_back("Assets/Textures/Skybox/bottom.jpg");
 	skyBoxTextures.push_back("Assets/Textures/Skybox/back.jpg");
 	skyBoxTextures.push_back("Assets/Textures/Skybox/front.jpg");
-	GameObject* skybox = new GameObject(camera, nullptr, new ShapeGraphicsComponent(SKYBOX), nullptr, nullptr);
+	GameObject* skybox = new GameObject("Skybox", camera, nullptr, new ShapeGraphicsComponent(ModelType::SKYBOXSHAPE), nullptr, nullptr);
 	skybox->GetTransform()->scale = glm::vec3(100.0f);
 	skybox->Initialise(skyboxProgram);
 	skybox->SetTextures(skyBoxTextures);
-	m_gameObjects.push_back(skybox);
+	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(GAMEOBJECTNAME::SKYBOX, skybox));
 	m_graphicsComponents.push_back(skybox->GetGraphicsComponent());
 
 	GLuint simpleProgram = sl.CreateProgram("Assets/Shaders/Vertex/Simple.vs", "Assets/Shaders/Fragment/Simple.fs");
 	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/SimpleLighting.vs", "Assets/Shaders/Fragment/SimpleLighting.fs");
-	bob = new GameObject(camera, light, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
+	bob = new GameObject("Box", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
 	bob->Initialise(program);
 	bob->SetTexture("Assets/Textures/rayman.jpg");
 	//bob->GetTransform()->scale = glm::vec3(50.0f, 1.0f, 50.0f);
 	bob->GetTransform()->position.y = 0;
-	m_gameObjects.push_back(bob);
+	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(BOX, bob));
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 
-	GameObject* cameraController = new GameObject(camera, nullptr, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
+	GameObject* cameraController = new GameObject("Camera Controller", camera, nullptr, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
 	cameraController->Initialise();
-	m_gameObjects.push_back(cameraController);
+	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(CAMERA_CONTROLLER, cameraController));
 	m_inputComponents.push_back(cameraController->GetInputComponent());
 
-	GameObject* lightBox = new GameObject(camera, nullptr, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
+	GameObject* lightBox = new GameObject("Light box", camera, nullptr, new ShapeGraphicsComponent(CUBE), nullptr, nullptr);
 	lightBox->Initialise(simpleProgram);
 	lightBox->GetTransform()->position = lightPos;
-	m_gameObjects.push_back(lightBox);
+	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(LIGHT_BOX, lightBox));
 	m_graphicsComponents.push_back(lightBox->GetGraphicsComponent());
 }
 
@@ -107,9 +107,14 @@ void Game::MainLoop()
 		if (m_showWindow)
 		{
 			ImGui::Begin("Window", &m_showWindow);
-			ImGui::Text("Hello world");
-			if (ImGui::Button("Close me"))
-				m_showWindow = false;
+			ImGui::Text(m_gameObjects[BOX]->GetName().c_str());
+			ImGui::InputFloat("x", &m_gameObjects[BOX]->GetTransform()->position.x);
+			ImGui::InputFloat("y", &m_gameObjects[BOX]->GetTransform()->position.y);
+			ImGui::InputFloat("z", &m_gameObjects[BOX]->GetTransform()->position.z);
+			if (ImGui::Button("Save"))
+			{
+				// TODO: save values to .ini file
+			}
 			ImGui::End();
 		}
 
@@ -143,8 +148,8 @@ void Game::ShutDown()
 {
 	for (auto iter = m_gameObjects.begin(); iter != m_gameObjects.end(); ++iter)
 	{
-		delete *iter;
-		*iter = nullptr;
+		delete iter->second;
+		iter->second = nullptr;
 	}
 
 	delete camera;

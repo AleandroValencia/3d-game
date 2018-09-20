@@ -11,7 +11,7 @@ void ShapeGraphicsComponent::Initialise(GameObject* _gameObject)
 	case QUAD: Utils::setQuadData(m_vertices, m_indices); break;
 	case CUBE: Utils::setCubeData(m_vertices, m_indices); break;
 	case SPHERE: Utils::setSphereData(m_vertices, m_indices); break;
-	case SKYBOX: Utils::setSkyBoxData(m_vertices, m_indices); break;
+	case SKYBOXSHAPE: Utils::setSkyBoxData(m_vertices, m_indices); break;
 	default: Utils::setCubeData(m_vertices, m_indices);	break;
 	}
 

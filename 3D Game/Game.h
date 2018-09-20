@@ -8,7 +8,10 @@
 #include <string>
 #include <time.h>
 #include <algorithm>
+#include <map>
+#if _DEBUG
 #include <vld.h>
+#endif
 
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\sdl\include\SDL_opengl.h"
@@ -27,6 +30,14 @@
 #include "GameObject.h"
 #include "ShapeGraphicsComponent.h"
 #include "ShaderLoader.h"
+
+enum GAMEOBJECTNAME
+{
+	SKYBOX = 0,
+	BOX,
+	CAMERA_CONTROLLER,
+	LIGHT_BOX
+};
 
 class Game
 {
@@ -62,7 +73,7 @@ private:
 	GameObject* bob;
 	Camera* camera;
 	Light* light;
-	std::vector<GameObject*> m_gameObjects;
+	std::map<GAMEOBJECTNAME, GameObject*> m_gameObjects;
 	std::vector<GraphicsComponent*> m_graphicsComponents;
 	std::vector<InputComponent*> m_inputComponents;
 

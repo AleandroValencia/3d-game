@@ -1,7 +1,8 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Camera* _camera, Light* _light, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics)
-	: m_camera(_camera)
+GameObject::GameObject(std::string _name, Camera* _camera, Light* _light, GraphicsComponent* _graphics, InputComponent* _input, PhysicsComponent* _physics)
+	: m_name(_name)
+	, m_camera(_camera)
 	, m_light(_light)
 	, m_graphics(_graphics)
 	, m_input(_input)
@@ -87,6 +88,11 @@ void GameObject::Render()
 	{
 		m_graphics->Update();
 	}
+}
+
+std::string GameObject::GetName() const
+{
+	return m_name;
 }
 
 glm::vec3 GameObject::GetPosition() const
