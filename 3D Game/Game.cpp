@@ -63,7 +63,7 @@ void Game::InitGameObjects()
 
 void Game::Initialise()
 {
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC);
 	m_Window = SDL_CreateWindow(m_Title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, Utils::WIDTH, Utils::HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	m_Context = SDL_GL_CreateContext(m_Window);
 	glewInit();
@@ -117,7 +117,7 @@ void Game::MainLoop()
 			}
 			ImGui::End();
 		}
-
+		
 		// Update Input Components
 		std::for_each(m_inputComponents.begin(), m_inputComponents.end(), [](InputComponent* _i) { _i->Update(); });
 

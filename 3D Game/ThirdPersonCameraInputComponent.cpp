@@ -24,5 +24,6 @@ void ThirdPersonCameraInputComponent::Update()
 		m_gameObject->m_camera->MoveRight();
 	}
 
-	m_gameObject->m_camera->RotateAround(m_followTarget->GetTransform() ,glm::vec3(-InputHandler::GetYOffset(), InputHandler::GetXOffset(), 0.0f));
+	if (SDL_GetRelativeMouseMode())
+		m_gameObject->m_camera->RotateAround(m_followTarget->GetTransform() ,glm::vec3(-InputHandler::GetYOffset(), InputHandler::GetXOffset(), 0.0f));
 }
