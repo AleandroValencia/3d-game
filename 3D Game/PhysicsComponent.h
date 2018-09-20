@@ -13,6 +13,9 @@ public:
 	virtual void Initialise(GameObject* _gameObject) = 0;
 	virtual void Update() = 0;
 
+	btVector3 GetPosition() const { return m_transform.getOrigin(); }
+	btQuaternion GetRotation() const { return m_transform.getRotation(); }
+
 	void SetPosition(glm::vec3 _position) { m_transform.setOrigin(Utils::glmToBullet(_position)); }
 	void SetScale(glm::vec3 _scale) { m_collisionShape->setLocalScaling(Utils::glmToBullet(_scale)); }
 	btCollisionShape* GetCollisionShape() const { return m_collisionShape; }

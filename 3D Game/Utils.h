@@ -96,6 +96,7 @@ public:
 	static void setSphereData(std::vector<VertexFormat>& _vertices, std::vector<GLuint>& _indices);
 
 	static btVector3 glmToBullet(const glm::vec3& _glm);
+	static glm::vec3 bulletToGLM(const btVector3& _bullet);
 };
 
 #endif // !_UTILS_H__
