@@ -12,7 +12,7 @@ StaticPhysicsComponent::~StaticPhysicsComponent()
 void StaticPhysicsComponent::Initialise(GameObject * _gameObject)
 {
 	m_gameObject = _gameObject;
-	m_collisionShape = new btBoxShape(Utils::glmToBullet(m_gameObject->GetScale() / 2.0f));
+	m_collisionShape = new btBoxShape(Utils::glmToBullet(m_gameObject->GetScale()));
 	btTransform objectTransform;
 	objectTransform.setIdentity();
 	objectTransform.setOrigin(Utils::glmToBullet(m_gameObject->GetPosition()));

@@ -18,7 +18,7 @@ void Game::InitGameObjects()
 {
 	ShaderLoader sl;
 
-	glm::vec3 lightPos = glm::vec3(2.4f, 0.0f, 4.0f);
+	glm::vec3 lightPos = glm::vec3(0.0f, 10.0f, 0.0f);
 	GLuint simpleProgram = sl.CreateProgram("Assets/Shaders/Vertex/Simple.vs", "Assets/Shaders/Fragment/Simple.fs");
 	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/SimpleLighting.vs", "Assets/Shaders/Fragment/SimpleLighting.fs");
 	GLuint debugProgram = sl.CreateProgram("Assets/Shaders/Vertex/Debug.vs", "Assets/Shaders/Fragment/SimpleLighting.fs");
@@ -48,7 +48,6 @@ void Game::InitGameObjects()
 	GameObject* ground = new GameObject("Ground", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, new StaticPhysicsComponent(0.0f));
 	ground->Initialise(program);
 	ground->SetTexture("Assets/Textures/grass.jpg");
-	ground->SetPosition(glm::vec3(0.0f, -10.0f, 0.0f));
 	ground->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
 	m_graphicsComponents.push_back(ground->GetGraphicsComponent());
 	m_physics->AddCollisionShape(ground->GetPhysicsComponent()->GetCollisionShape());
@@ -59,13 +58,13 @@ void Game::InitGameObjects()
 	bob = new GameObject("Box", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, new StaticPhysicsComponent(1.0f));
 	bob->Initialise(program);
 	bob->SetTexture("Assets/Textures/rayman.jpg");
-	bob->SetPosition(glm::vec3(0.0f, 20.0f, 0.0f));
+	bob->SetPosition(glm::vec3(0.0f, 3.0f, 0.0f));
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(BOX, bob));
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 	m_physics->AddCollisionShape(bob->GetPhysicsComponent()->GetCollisionShape());
 	m_physics->World()->addRigidBody(bob->GetPhysicsComponent()->GetRigidBody());
 
-	GameObject* cameraController = new GameObject("Camera Controller", camera, nullptr, nullptr, new FirstPersonCameraInputComponent(), nullptr);
+	GameObject* cameraController = new GameObject("Camera Controller", camera, nullptr, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
 	cameraController->Initialise();
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(CAMERA_CONTROLLER, cameraController));
 	m_inputComponents.push_back(cameraController->GetInputComponent());

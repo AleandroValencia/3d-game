@@ -27,11 +27,12 @@ public:
 		m_motionState->getWorldTransform(transform);
 		transform.setOrigin(Utils::glmToBullet(_position));
 		m_motionState->setWorldTransform(transform);
+		m_motionState->m_startWorldTrans = transform;
+		m_rigidBody->setCenterOfMassTransform(transform);
 	}
 	void SetScale(glm::vec3 _scale) { m_collisionShape->setLocalScaling(Utils::glmToBullet(_scale)); }
 	btCollisionShape* GetCollisionShape() const { return m_collisionShape; }
 	btRigidBody* GetRigidBody() const { return m_rigidBody; }
-	void ResetInertia();
 
 protected:
 	GameObject* m_gameObject;
