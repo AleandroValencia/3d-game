@@ -2,6 +2,8 @@
 #define _INPUTCOMPONENT_H__
 #pragma once
 
+#include "InputHandler.h"
+
 class GameObject;
 
 class InputComponent

@@ -55,6 +55,10 @@ public:
 	void MoveBackward() { m_transform->position -= m_transform->forward * m_speed; }
 	void MoveLeft() { m_transform->position -= m_transform->right * m_speed; }
 	void MoveRight() { m_transform->position += m_transform->right * m_speed; }
+
+	void AddVelocity(glm::vec3 _velocity) { m_velocity += _velocity; }
+	glm::vec3 GetVelocity() const { return m_velocity; }
+
 private:
 	std::string m_name;
 	Light* m_light;
@@ -63,6 +67,9 @@ private:
 	PhysicsComponent* m_physics;
 	Transform* m_transform;
 	float m_speed;
+
+	glm::vec3 m_velocity;
+	bool m_moving;
 };
 
 #endif // !_GAMEOBJECT_H__

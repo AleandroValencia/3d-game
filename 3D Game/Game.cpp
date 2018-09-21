@@ -55,7 +55,7 @@ void Game::InitGameObjects()
 	m_physics->World()->updateSingleAabb(ground->GetPhysicsComponent()->GetRigidBody());
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(GROUND, ground));
 
-	bob = new GameObject("Box", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, new StaticPhysicsComponent(1.0f));
+	bob = new GameObject("Box", camera, light, new ShapeGraphicsComponent(CUBE), new PlayerInputComponent(), new StaticPhysicsComponent(1.0f));
 	bob->Initialise(program);
 	bob->SetTexture("Assets/Textures/rayman.jpg");
 	bob->SetPosition(glm::vec3(0.0f, 3.0f, 0.0f));
@@ -64,6 +64,7 @@ void Game::InitGameObjects()
 	m_physics->AddCollisionShape(bob->GetPhysicsComponent()->GetCollisionShape());
 	m_physics->World()->addRigidBody(bob->GetPhysicsComponent()->GetRigidBody());
 	m_physicsComponents.push_back(bob->GetPhysicsComponent());
+	m_inputComponents.push_back(bob->GetInputComponent());
 
 	GameObject* cameraController = new GameObject("Camera Controller", camera, nullptr, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
 	cameraController->Initialise();
@@ -143,31 +144,10 @@ void Game::MainLoop()
 
 		// Update physics
 		m_physics->World()->stepSimulation(1.0f / 60.0f, 10);
-		for (int i = m_physics->World()->getNumCollisionObjects() - 1; i >= 0; --i)
-		{
-			btCollisionObject* obj = m_physics->World()->getCollisionObjectArray()[i];
-			btRigidBody* body = btRigidBody::upcast(obj);
-			btTransform trans;
-			if (body && body->getMotionState())
-			{
-				body->getMotionState()->getWorldTransform(trans);
-			}
-			else
-			{
-				trans = obj->getWorldTransform();
-			}
-			printf("world pos object %d = %f,%f,%f\n", i, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
-		}
-
 		std::for_each(m_physicsComponents.begin(), m_physicsComponents.end(), [](PhysicsComponent* _p) {_p->Update(); });
 
-		if (m_input->GetKeyPress(SDL_SCANCODE_SPACE))
-		{
-			m_gameObjects[BOX]->SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
-		}
-
 		// Render
-		glClearColor(1.0, 0.0, 0.0, 1.0);
+		glClearColor(0.0, 0.0, 0.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		m_physicsRenderer->SetMatrices(camera->View(), camera->Projection());

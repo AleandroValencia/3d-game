@@ -15,7 +15,6 @@ public:
 	void Update();
 
 private:
-
 };
 
 #endif // !_STATICPHYSICSCOMPONENT_H__

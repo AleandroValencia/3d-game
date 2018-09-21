@@ -2,9 +2,8 @@
 #define _FIRSTPERSONCAMERAINPUTCOMPONENT_H__
 #pragma once
 
-#include "GameObject.h"
-#include "InputHandler.h"
 #include "InputComponent.h"
+#include "GameObject.h"
 
 class FirstPersonCameraInputComponent : public InputComponent
 {

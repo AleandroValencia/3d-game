@@ -132,6 +132,9 @@
     <ClCompile Include="PhysicsComponent.cpp">
       <Filter>Source Files\Components\Base</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerInputComponent.cpp">
+      <Filter>Source Files\Components\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="PhysicsDebugRenderer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInputComponent.h">
+      <Filter>Header Files\Components\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

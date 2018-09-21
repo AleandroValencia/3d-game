@@ -73,8 +73,8 @@ public:
 
 	void UpdateKeyStates() { m_currentKeyStates = SDL_GetKeyboardState(nullptr); }
 
-	bool GetKeyPress(SDL_Scancode _key) const;
-	bool GetKeyUp(SDL_Scancode _key) const;
+	static bool GetKeyPress(SDL_Scancode _key);
+	static bool GetKeyUp(SDL_Scancode _key);
 	static bool GetKeyHold(SDL_Scancode _key);
 	bool isMouseMoving() const { return m_mouseMove; }
 	void MouseMove(SDL_Event& _e);
@@ -94,8 +94,8 @@ private:
 	GLfloat m_sensitivity;
 
 	bool m_mouseMove;
-	bool m_keyPress[KEYBOARD_SIZE];
-	bool m_keyUp[KEYBOARD_SIZE];
+	static bool m_keyPress[KEYBOARD_SIZE];
+	static bool m_keyUp[KEYBOARD_SIZE];
 
 	const float JOYSTICK_DEAD_ZONE = 0.25f;
 	SDL_Joystick* m_gameController;

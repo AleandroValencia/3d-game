@@ -8,6 +8,8 @@ GameObject::GameObject(std::string _name, Camera* _camera, Light* _light, Graphi
 	, m_input(_input)
 	, m_physics(_physics)
 	, m_speed(0.1f)
+	, m_velocity(glm::vec3(0.0f, 0.0f, 0.0f))
+	, m_moving(false)
 {
 	m_transform = new Transform();
 }

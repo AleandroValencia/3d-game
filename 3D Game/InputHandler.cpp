@@ -8,6 +8,8 @@ float InputHandler::m_joystickAxis[MAX_NUMBER_AXES]{};
 bool InputHandler::m_joystickButtonPress[MAX_NUMBER_BUTTONS]{};
 bool InputHandler::m_joystickButtonHold[MAX_NUMBER_BUTTONS]{};
 bool InputHandler::m_joystickDirectionPad[MAX_NUMBER_PAD_DIRECTIONS]{};
+bool InputHandler::m_keyPress[KEYBOARD_SIZE];
+bool InputHandler::m_keyUp[KEYBOARD_SIZE];
 
 InputHandler::InputHandler()
 	: m_sensitivity(0.1f)
@@ -150,12 +152,12 @@ void InputHandler::Update(bool& _closeApplication)
 	}
 }
 
-bool InputHandler::GetKeyPress(SDL_Scancode _key) const
+bool InputHandler::GetKeyPress(SDL_Scancode _key)
 {
 	return m_keyPress[_key];
 }
 
-bool InputHandler::GetKeyUp(SDL_Scancode _key) const
+bool InputHandler::GetKeyUp(SDL_Scancode _key)
 {
 	return m_keyUp[_key];
 }

@@ -156,6 +156,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PhysicsSettings.cpp" />
+    <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PhysicsDebugRenderer.h" />
     <ClInclude Include="PhysicsSettings.h" />
+    <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShaderLoader.h" />
