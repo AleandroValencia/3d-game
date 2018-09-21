@@ -155,6 +155,8 @@ void Game::MainLoop()
 			printf("world pos object %d = %f,%f,%f\n", i, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
 		}
 
+		m_gameObjects[BOX]->UpdatePhysics();
+
 		// Render
 		glClearColor(1.0, 0.0, 0.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

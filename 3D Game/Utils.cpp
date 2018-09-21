@@ -223,5 +223,5 @@ btVector3 Utils::glmToBullet(const glm::vec3& _glm)
 
 glm::vec3 Utils::bulletToGLM(const btVector3 & _bullet)
 {
-	return glm::vec3(_bullet.x, _bullet.y, _bullet.z);
+	return glm::vec3(_bullet.getX(), _bullet.getY(), _bullet.getZ());
 }
