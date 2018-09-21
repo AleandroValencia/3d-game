@@ -135,6 +135,9 @@
     <ClCompile Include="PlayerInputComponent.cpp">
       <Filter>Source Files\Components\Input</Filter>
     </ClCompile>
+    <ClCompile Include="ciniparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="PlayerInputComponent.h">
       <Filter>Header Files\Components\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ciniparser.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

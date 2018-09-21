@@ -33,6 +33,7 @@
 #include "ShaderLoader.h"
 #include "StaticPhysicsComponent.h"
 
+#include "ciniparser.h"
 #include "PhysicsDebugRenderer.h"
 
 enum GAMEOBJECTNAME
@@ -86,6 +87,7 @@ private:
 	bool m_showWindow = true; 
 
 	PhysicsDebugRenderer* m_physicsRenderer;
+	CINIParser m_boxSettings;
 };
 
 #endif // !_GAME_H__

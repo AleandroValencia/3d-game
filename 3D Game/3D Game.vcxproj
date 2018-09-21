@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ciniparser.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Dependencies\Dear_ImGui\imgui.cpp" />
     <ClCompile Include="Dependencies\Dear_ImGui\imgui_demo.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ciniparser.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Dependencies\Dear_ImGui\imconfig.h" />

@@ -102,6 +102,7 @@ void Game::Initialise()
 	m_physics = new PhysicsSettings();
 	m_sceneManager = new SceneManager();
 	m_input = new InputHandler();
+	m_boxSettings.LoadIniFile("BoxSettings.ini");
 
 	InitGameObjects();
 }
