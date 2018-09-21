@@ -114,8 +114,8 @@ glm::vec3 GameObject::GetScale() const
 void GameObject::SetPosition(glm::vec3 _position)
 {
 	m_transform->position = _position;
-	//if (m_physics)
-	//	m_physics->SetPosition(_position);
+	if (m_physics)
+		m_physics->SetPosition(_position);
 }
 
 void GameObject::SetRotation(glm::vec3 _eulerAngles)

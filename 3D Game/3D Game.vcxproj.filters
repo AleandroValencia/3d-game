@@ -221,5 +221,8 @@
     <ClInclude Include="StaticPhysicsComponent.h">
       <Filter>Header Files\Components\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="PhysicsDebugRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

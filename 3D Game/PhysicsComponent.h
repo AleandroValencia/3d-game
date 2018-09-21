@@ -21,14 +21,20 @@ public:
 	}
 	//btQuaternion GetRotation() const { return m_transform.getRotation(); }
 
-	//void SetPosition(glm::vec3 _position) { m_transform.setOrigin(Utils::glmToBullet(_position)); }
+	void SetPosition(glm::vec3 _position)
+	{
+		btTransform transform;
+		m_motionState->getWorldTransform(transform);
+		transform.setOrigin(Utils::glmToBullet(_position));
+		m_motionState->setWorldTransform(transform);
+	}
 	void SetScale(glm::vec3 _scale) { m_collisionShape->setLocalScaling(Utils::glmToBullet(_scale)); }
 	btCollisionShape* GetCollisionShape() const { return m_collisionShape; }
 	btRigidBody* GetRigidBody() const { return m_rigidBody; }
+	void ResetInertia();
 
 protected:
 	GameObject* m_gameObject;
-
 	btCollisionShape* m_collisionShape;
 	btScalar m_mass;
 	bool m_isDynamic;

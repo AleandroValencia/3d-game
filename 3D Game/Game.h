@@ -32,6 +32,8 @@
 #include "ShaderLoader.h"
 #include "StaticPhysicsComponent.h"
 
+#include "PhysicsDebugRenderer.h"
+
 enum GAMEOBJECTNAME
 {
 	SKYBOX = 0,
@@ -80,6 +82,8 @@ private:
 	std::vector<InputComponent*> m_inputComponents;
 
 	bool m_showWindow = true; 
+
+	PhysicsDebugRenderer* m_physicsRenderer;
 };
 
 #endif // !_GAME_H__

@@ -19,6 +19,12 @@ void Game::InitGameObjects()
 	ShaderLoader sl;
 
 	glm::vec3 lightPos = glm::vec3(2.4f, 0.0f, 4.0f);
+	GLuint simpleProgram = sl.CreateProgram("Assets/Shaders/Vertex/Simple.vs", "Assets/Shaders/Fragment/Simple.fs");
+	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/SimpleLighting.vs", "Assets/Shaders/Fragment/SimpleLighting.fs");
+	GLuint debugProgram = sl.CreateProgram("Assets/Shaders/Vertex/Debug.vs", "Assets/Shaders/Fragment/SimpleLighting.fs");
+
+	m_physicsRenderer = new PhysicsDebugRenderer();
+	m_physics->World()->setDebugDrawer(m_physicsRenderer);
 
 	camera = new Camera();
 	camera->m_transform->position = glm::vec3(0.0f, 0.0f, 6.0f);
@@ -39,18 +45,27 @@ void Game::InitGameObjects()
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(GAMEOBJECTNAME::SKYBOX, skybox));
 	m_graphicsComponents.push_back(skybox->GetGraphicsComponent());
 
-	GLuint simpleProgram = sl.CreateProgram("Assets/Shaders/Vertex/Simple.vs", "Assets/Shaders/Fragment/Simple.fs");
-	GLuint program = sl.CreateProgram("Assets/Shaders/Vertex/SimpleLighting.vs", "Assets/Shaders/Fragment/SimpleLighting.fs");
+	GameObject* ground = new GameObject("Ground", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, new StaticPhysicsComponent(0.0f));
+	ground->Initialise(program);
+	ground->SetTexture("Assets/Textures/grass.jpg");
+	ground->SetPosition(glm::vec3(0.0f, -10.0f, 0.0f));
+	ground->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
+	m_graphicsComponents.push_back(ground->GetGraphicsComponent());
+	m_physics->AddCollisionShape(ground->GetPhysicsComponent()->GetCollisionShape());
+	m_physics->World()->addRigidBody(ground->GetPhysicsComponent()->GetRigidBody());
+	m_physics->World()->updateSingleAabb(ground->GetPhysicsComponent()->GetRigidBody());
+	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(GROUND, ground));
+
 	bob = new GameObject("Box", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, new StaticPhysicsComponent(1.0f));
 	bob->Initialise(program);
 	bob->SetTexture("Assets/Textures/rayman.jpg");
-	bob->SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
+	bob->SetPosition(glm::vec3(0.0f, 20.0f, 0.0f));
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(BOX, bob));
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 	m_physics->AddCollisionShape(bob->GetPhysicsComponent()->GetCollisionShape());
 	m_physics->World()->addRigidBody(bob->GetPhysicsComponent()->GetRigidBody());
 
-	GameObject* cameraController = new GameObject("Camera Controller", camera, nullptr, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
+	GameObject* cameraController = new GameObject("Camera Controller", camera, nullptr, nullptr, new FirstPersonCameraInputComponent(), nullptr);
 	cameraController->Initialise();
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(CAMERA_CONTROLLER, cameraController));
 	m_inputComponents.push_back(cameraController->GetInputComponent());
@@ -60,17 +75,6 @@ void Game::InitGameObjects()
 	lightBox->SetPosition(lightPos);
 	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(LIGHT_BOX, lightBox));
 	m_graphicsComponents.push_back(lightBox->GetGraphicsComponent());
-
-	GameObject* ground = new GameObject("Ground", camera, light, new ShapeGraphicsComponent(CUBE), nullptr, new StaticPhysicsComponent(0.0f));
-	ground->Initialise(program);
-	ground->SetTexture("Assets/Textures/grass.jpg");
-	ground->SetPosition(glm::vec3(0.0f, -3.0f, 0.0f));
-	ground->SetScale(glm::vec3(50.0f, 1.0f, 50.0f));
-	m_graphicsComponents.push_back(ground->GetGraphicsComponent());
-	m_physics->AddCollisionShape(ground->GetPhysicsComponent()->GetCollisionShape());
-	m_physics->World()->addRigidBody(ground->GetPhysicsComponent()->GetRigidBody());
-	m_physics->World()->updateSingleAabb(ground->GetPhysicsComponent()->GetRigidBody());
-	m_gameObjects.insert(std::pair<GAMEOBJECTNAME, GameObject*>(GROUND, ground));
 }
 
 void Game::Initialise()
@@ -155,11 +159,18 @@ void Game::MainLoop()
 			printf("world pos object %d = %f,%f,%f\n", i, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
 		}
 
+		if (m_input->GetKeyPress(SDL_SCANCODE_SPACE))
+		{
+			m_gameObjects[BOX]->SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
+		}
 		m_gameObjects[BOX]->UpdatePhysics();
 
 		// Render
 		glClearColor(1.0, 0.0, 0.0, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		m_physicsRenderer->SetMatrices(camera->View(), camera->Projection());
+		m_physics->World()->debugDrawWorld();
 
 		std::for_each(m_graphicsComponents.begin(), m_graphicsComponents.end(), [](GraphicsComponent* _g) {_g->Update(); });
 
@@ -184,6 +195,8 @@ void Game::ShutDown()
 	m_sceneManager = nullptr;
 	delete m_input;
 	m_input = nullptr;
+	delete m_physicsRenderer;
+	m_physicsRenderer = nullptr;
 
 	for (auto iter = m_gameObjects.begin(); iter != m_gameObjects.end(); ++iter)
 	{
