@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Dependencies\Bullet\include\btBulletDynamicsCommon.h"
+#include "Utils.h"
 
 class GameObject;
 
@@ -13,23 +14,13 @@ public:
 	virtual void Initialise(GameObject* _gameObject) = 0;
 	virtual void Update() = 0;
 
-	btVector3 GetPosition() const
-	{
-		btTransform transform;
-		m_motionState->getWorldTransform(transform);
-		return transform.getOrigin();
-	}
-	//btQuaternion GetRotation() const { return m_transform.getRotation(); }
+	btVector3 GetPosition() const;
+	btQuaternion GetRotation() const;
+	btVector3 GetEulerAngle() const;	// NOTE the yaw,pitch,roll
 
-	void SetPosition(glm::vec3 _position)
-	{
-		btTransform transform;
-		m_motionState->getWorldTransform(transform);
-		transform.setOrigin(Utils::glmToBullet(_position));
-		m_motionState->setWorldTransform(transform);
-		m_motionState->m_startWorldTrans = transform;
-		m_rigidBody->setCenterOfMassTransform(transform);
-	}
+	void SetPosition(glm::vec3 _position);
+	void SetRotation(glm::vec3 _rotation);
+
 	void SetScale(glm::vec3 _scale) { m_collisionShape->setLocalScaling(Utils::glmToBullet(_scale)); }
 	btCollisionShape* GetCollisionShape() const { return m_collisionShape; }
 	btRigidBody* GetRigidBody() const { return m_rigidBody; }

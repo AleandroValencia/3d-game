@@ -63,6 +63,7 @@ void Game::InitGameObjects()
 	m_graphicsComponents.push_back(bob->GetGraphicsComponent());
 	m_physics->AddCollisionShape(bob->GetPhysicsComponent()->GetCollisionShape());
 	m_physics->World()->addRigidBody(bob->GetPhysicsComponent()->GetRigidBody());
+	m_physicsComponents.push_back(bob->GetPhysicsComponent());
 
 	GameObject* cameraController = new GameObject("Camera Controller", camera, nullptr, nullptr, new ThirdPersonCameraInputComponent(bob), nullptr);
 	cameraController->Initialise();
@@ -158,11 +159,12 @@ void Game::MainLoop()
 			printf("world pos object %d = %f,%f,%f\n", i, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
 		}
 
+		std::for_each(m_physicsComponents.begin(), m_physicsComponents.end(), [](PhysicsComponent* _p) {_p->Update(); });
+
 		if (m_input->GetKeyPress(SDL_SCANCODE_SPACE))
 		{
 			m_gameObjects[BOX]->SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
 		}
-		m_gameObjects[BOX]->UpdatePhysics();
 
 		// Render
 		glClearColor(1.0, 0.0, 0.0, 1.0);

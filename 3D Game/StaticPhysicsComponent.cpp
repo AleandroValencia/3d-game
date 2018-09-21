@@ -29,4 +29,5 @@ void StaticPhysicsComponent::Initialise(GameObject * _gameObject)
 
 void StaticPhysicsComponent::Update()
 {
+	m_gameObject->SetPositionFromPhysics(Utils::bulletToGLM(GetPosition()));
 }

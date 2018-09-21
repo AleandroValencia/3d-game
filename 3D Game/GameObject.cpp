@@ -75,7 +75,6 @@ void GameObject::UpdatePhysics()
 	if (m_physics != nullptr)
 	{
 		m_physics->Update();
-		m_transform->position = Utils::bulletToGLM(m_physics->GetPosition());
 	}
 }
 
@@ -116,6 +115,11 @@ void GameObject::SetPosition(glm::vec3 _position)
 	m_transform->position = _position;
 	if (m_physics)
 		m_physics->SetPosition(_position);
+}
+
+void GameObject::SetPositionFromPhysics(glm::vec3 _position)
+{
+	m_transform->position = _position;
 }
 
 void GameObject::SetRotation(glm::vec3 _eulerAngles)

@@ -80,6 +80,7 @@ private:
 	std::map<GAMEOBJECTNAME, GameObject*> m_gameObjects;
 	std::vector<GraphicsComponent*> m_graphicsComponents;
 	std::vector<InputComponent*> m_inputComponents;
+	std::vector<PhysicsComponent*> m_physicsComponents;
 
 	bool m_showWindow = true; 
 

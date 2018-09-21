@@ -43,6 +43,7 @@ public:
 	Light* GetLight() const { return m_light; }
 
 	void SetPosition(glm::vec3 _position);
+	void SetPositionFromPhysics(glm::vec3 _position);
 	void SetRotation(glm::vec3 _eulerAngles);
 	void SetScale(glm::vec3 _scale);
 

@@ -15,14 +15,6 @@ void ThirdPersonCameraInputComponent::Update()
 	{
 		m_gameObject->m_camera->MoveBackward();
 	}	
-	if (InputHandler::GetKeyHold(SDL_SCANCODE_A))
-	{
-		m_gameObject->m_camera->MoveLeft();
-	}	
-	if (InputHandler::GetKeyHold(SDL_SCANCODE_D))
-	{
-		m_gameObject->m_camera->MoveRight();
-	}
 
 	if (SDL_GetRelativeMouseMode())
 		m_gameObject->m_camera->RotateAround(m_followTarget->GetPosition() ,glm::vec3(-InputHandler::GetYOffset(), InputHandler::GetXOffset(), 0.0f));
