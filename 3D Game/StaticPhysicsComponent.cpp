@@ -25,6 +25,7 @@ void StaticPhysicsComponent::Initialise(GameObject * _gameObject)
 	m_motionState = new btDefaultMotionState(objectTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(m_mass, m_motionState, m_collisionShape, localInertia);
 	m_rigidBody = new btRigidBody(rbInfo);
+	m_rigidBody->setActivationState(DISABLE_DEACTIVATION);
 }
 
 void StaticPhysicsComponent::Update()
