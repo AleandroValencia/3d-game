@@ -33,6 +33,7 @@ public:
 	Transform* m_transform;
 private:
 	float m_speed;
+	float m_distanceFromTarget;
 
 	GLfloat m_pitch;
 	GLfloat m_yaw;

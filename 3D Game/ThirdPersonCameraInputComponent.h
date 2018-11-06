@@ -12,6 +12,7 @@ public:
 	~ThirdPersonCameraInputComponent() {}
 	void Initialise(GameObject* _parentObject);
 	void Update();
+	void RotateAround(glm::vec3& _pivot, glm::vec3 _eulers);
 
 private:
 	GameObject* m_followTarget;

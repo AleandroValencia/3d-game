@@ -7,6 +7,7 @@ Camera::Camera()
 	, m_speed(0.1f)
 	, m_pitch(0.0f)
 	, m_yaw(-90.0f)
+	, m_distanceFromTarget(16.0f)
 {
 	m_transform = new Transform();
 }
@@ -40,6 +41,8 @@ void Camera::Rotate(glm::vec3 _eulers)
 	m_transform->forward.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
 	m_transform->forward.y = sin(glm::radians(m_pitch));
 	m_transform->forward.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+
+	m_transform->right = -glm::cross(m_transform->forward, m_transform->up);
 }
 
 void Camera::RotateAround(glm::vec3& _pivot, glm::vec3 _eulers)
@@ -52,10 +55,10 @@ void Camera::RotateAround(glm::vec3& _pivot, glm::vec3 _eulers)
 	if (m_pitch < -89.0f)
 		m_pitch = -89.0f;
 
-	float distanceFromObject = glm::length(_pivot - m_transform->position);
-	m_transform->position.x = _pivot.x + cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch)) * distanceFromObject;
-	m_transform->position.y = _pivot.y + sin(glm::radians(m_pitch)) * distanceFromObject;
-	m_transform->position.z = _pivot.z + sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch)) *distanceFromObject;
+	m_transform->position.x = _pivot.x + cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch)) * m_distanceFromTarget;
+	m_transform->position.y = _pivot.y + sin(glm::radians(m_pitch)) * m_distanceFromTarget;
+	m_transform->position.z = _pivot.z + sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch)) * m_distanceFromTarget;
 
 	m_transform->forward = glm::normalize(_pivot - m_transform->position);
+	m_transform->right = -glm::cross(m_transform->forward, m_transform->up);
 }
