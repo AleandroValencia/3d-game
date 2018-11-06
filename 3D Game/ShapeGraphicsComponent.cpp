@@ -56,9 +56,9 @@ void ShapeGraphicsComponent::Update()
 
 	glm::mat4 model = glm::mat4();
 	model = glm::translate(model, m_gameObject->GetPosition());
-	model = glm::rotate(model, glm::radians(m_gameObject->GetRotation().x), glm::vec3(1.0f, 0.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(m_gameObject->GetRotation().y), glm::vec3(0.0f, 1.0f, 0.0f));
-	model = glm::rotate(model, glm::radians(m_gameObject->GetRotation().z), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, m_gameObject->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, m_gameObject->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, m_gameObject->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::scale(model, m_gameObject->GetScale());
 
 	glm::mat4 view = m_gameObject->m_camera->View();

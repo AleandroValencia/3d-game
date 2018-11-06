@@ -31,6 +31,7 @@ void StaticPhysicsComponent::Initialise(GameObject * _gameObject)
 void StaticPhysicsComponent::Update()
 {
 	m_gameObject->SetPositionFromPhysics(Utils::bulletToGLM(GetPosition()));
+	m_gameObject->SetRotation(Utils::bulletToGLM(GetEulerAngle()));
 	if (m_gameObject->GetVelocity() != glm::vec3(0.0f))
 	{
 		m_rigidBody->setLinearVelocity(Utils::glmToBullet(m_gameObject->GetVelocity()));
